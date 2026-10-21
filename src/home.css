@@ -394,3 +394,11 @@ html[data-navigation='back']::view-transition-new(root){animation-name:page-ente
 ::view-transition-old(site-header){animation:none;opacity:0}
 ::view-transition-new(site-header){animation:none}
 @media(prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
+
+/* Green brand and blue action accents across both pages. */
+.shared-header .stay-brand,.stay-home .stay-brand{color:#23734b}
+.shared-header .stay-login,.stay-home .stay-login,.stay-home .stay-primary,.stay-home .stay-search .stay-search-submit{background:#2563eb;border-color:#2563eb;color:#fff}
+.shared-header .stay-login:hover,.stay-home .stay-login:hover,.stay-home .stay-primary:hover,.stay-home .stay-search .stay-search-submit:hover{background:#1d4ed8;border-color:#1d4ed8}
+.stay-home .stay-secondary{color:#2563eb}
+.shared-header :is(button,a):focus-visible,.stay-home :is(button,a):focus-visible{outline-color:#2563eb}
+.stay-home .booking-dialog>a{color:#2563eb;border-color:#2563eb}
