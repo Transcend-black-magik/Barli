@@ -1,0 +1,84 @@
+@font-face{font-family:'DM Sans';src:url('/fonts/dm-sans.ttf') format('truetype');font-weight:400;font-display:swap}
+:root{font-family:'DM Sans',Arial,sans-serif;color:#292b2b;background:#f8f9fa;font-synthesis:none;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}body{margin:0}a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}button,a{-webkit-tap-highlight-color:transparent}button:focus-visible,a:focus-visible{outline:2px solid #ed6841;outline-offset:5px}
+.mind-hero{position:relative;isolation:isolate;width:100%;height:100svh;min-height:620px;overflow:hidden;background:#f8f9fa}
+.mind-hero:before{content:'';position:absolute;z-index:4;pointer-events:none;inset:0 0 auto;height:48px;background:linear-gradient(#bfc1c333,transparent)}
+.site-header{position:relative;z-index:5;display:flex;align-items:center;justify-content:space-between;width:66%;max-width:1160px;margin:0 auto;height:70px;font-size:11px;letter-spacing:-.025em}
+.wordmark{display:inline-flex;align-items:center;gap:3px;font-size:16px;letter-spacing:-.8px;font-weight:400}.wordmark svg{width:15px;height:20px}
+.current i{background:#ef7559}
+.account-actions{display:flex;align-items:center;gap:13px}.account-actions button{border:0;font-size:10px;white-space:nowrap}.login{padding:7px 0;background:transparent;color:#666c6f}.signup{border-radius:30px;background:#f2693e;color:white;padding:8px 15px;transition:background .2s}.signup:hover{background:#d9552e}
+.opening-scene{position:absolute;inset:0}
+.story-page h1{position:absolute;z-index:1;top:14%;left:0;width:100%;margin:0;text-align:center;font-family:'Times New Roman',Times,serif;font-size:clamp(100px,13.65vw,218px);font-weight:400;letter-spacing:-.069em;line-height:.785;background:linear-gradient(180deg,#bfc4c9 0%,#d1d6db 47%,#e5e8eb 77%,#f5f6f8 100%);background-clip:text;-webkit-background-clip:text;color:transparent;padding:0 .12em .12em 0;user-select:none}
+.story-page h1{animation:headline-enter 1.2s cubic-bezier(.22,1,.36,1) .12s both}
+.story-page h1 span{display:block;white-space:nowrap}
+@keyframes headline-enter{
+  from{opacity:0;transform:translateY(-110%)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes image-enter{
+  from{opacity:0;transform:translate(-50%,100svh)}
+  to{opacity:1;transform:translate(-50%,0)}
+}
+.product{position:absolute;z-index:2;top:63%;left:50%;width:clamp(190px,18.8vw,310px);margin:0;aspect-ratio:300 / 470;transform:translateX(-50%);filter:drop-shadow(0 5px 10px #686c6512);overflow:hidden;border-radius:28px 28px 0 0;animation:image-enter 1.35s cubic-bezier(.22,1,.36,1) .35s both}.product img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+.corner-note{position:absolute;z-index:3;bottom:28px;right:3.1%;display:flex;align-items:center;gap:6px;color:#797e80;font-size:9px;letter-spacing:-.02em}.corner-note span{height:5px;width:5px;border-radius:50%;background:#f2693e}
+@media(min-aspect-ratio:19/10){.story-page h1{font-size:min(12vw,25vh);top:13%}.product{top:64%;width:16vw}.site-header{height:58px}}
+@media(max-width:760px){.site-header{width:88%;height:60px;font-size:9px}.wordmark{font-size:14px}.wordmark svg{width:13px}.account-actions{gap:9px}.account-actions button{font-size:9px}.signup{padding:7px 11px}.mind-hero{min-height:580px}.story-page h1{top:24%;font-size:14.8vw;line-height:.86}.product{top:59%;width:42vw;max-width:255px}.corner-note{bottom:20px;right:6%;font-size:8px}}
+@media(max-width:480px){.site-header{width:90%;height:56px}.account-actions{gap:8px}.story-page h1{top:25%;font-size:15.5vw}.product{top:54%;width:47vw}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* One continuous, reversible scroll scene. */
+.motion-stage{--expand:0;--spread:0;--details:0;position:relative;height:200svh}
+.mind-hero{position:sticky;top:0;height:100svh;min-height:0;--card-width:clamp(190px,18.8vw,310px);--card-top:63svh;--frame-inset:12px;--frame-height:60svh}
+.headline-scroll{position:absolute;inset:0;opacity:calc(1 - var(--expand));transform:translateY(calc(-80px * var(--expand)));pointer-events:none}
+.corner-note{opacity:calc(1 - min(1,var(--expand) * 3))}
+
+
+.product{top:calc(var(--card-top) * (1 - var(--expand)) + var(--frame-inset) * var(--expand));width:calc(var(--card-width) * (1 - var(--spread)) + (100% - var(--frame-inset) * 2) * var(--spread));height:calc(var(--card-width) * 1.5666667 * (1 - var(--expand)) + var(--frame-height) * var(--expand));max-width:none;aspect-ratio:auto;border-radius:0;filter:none;overflow:visible;animation:none}
+.product-reveal{position:relative;width:100%;height:100%;overflow:hidden;border-radius:calc(28px * (1 - var(--expand))) calc(28px * (1 - var(--expand))) 0 0;animation:desert-arrive 1.35s cubic-bezier(.22,1,.36,1) .35s both}
+.product img{object-position:50% 45%}
+@keyframes desert-arrive{from{opacity:0;transform:translateY(100svh)}to{opacity:1;transform:translateY(0)}}
+.motion-details{position:absolute;top:calc(var(--frame-inset) + var(--frame-height) + 32px);left:3.6%;right:3.6%;display:grid;grid-template-columns:1.9fr .8fr 1fr;gap:4vw;opacity:var(--details);transform:translateY(calc(22px * (1 - var(--details))));color:#252626;pointer-events:auto}
+.motion-details p,.motion-details h2{margin:0;font-size:clamp(10px,.96vw,15px);line-height:1.22;font-weight:400;letter-spacing:-.035em}.motion-details h2,.motion-label{font-weight:600!important}.motion-details .motion-description{font-size:clamp(9px,.85vw,13px);line-height:1.25}
+.motion-footer{position:absolute;left:3.6%;right:3.6%;bottom:30px;display:flex;align-items:center;justify-content:space-between;opacity:var(--details);font-size:9px;color:#757777}.motion-footer>div{display:flex;gap:22px}.motion-footer a:hover{color:#222}.footer-symbol svg{width:20px;height:25px;color:#292b2b}
+@media(min-aspect-ratio:19/10){.mind-hero{--card-width:16vw;--card-top:64svh}}
+@media(max-width:760px){.mind-hero{--card-width:min(42vw,255px);--card-top:59svh;--frame-inset:6px;--frame-height:60svh}.motion-details{top:calc(var(--frame-inset) + var(--frame-height) + 20px);grid-template-columns:1fr 1fr;gap:16px}.motion-label{grid-column:1/-1}.motion-details p,.motion-details h2{font-size:11px}.motion-details .motion-description{font-size:10px}.motion-footer{bottom:20px;font-size:8px}.motion-footer>div{gap:12px}.motion-footer>span{max-width:75px;text-align:right}}
+@media(max-width:480px){.mind-hero{--card-width:min(47vw,255px);--card-top:54svh}.motion-details{grid-template-columns:.9fr 1.1fr;gap:10px}.motion-details p,.motion-details h2{font-size:10px}.motion-details .motion-description{font-size:9px}.motion-footer>div{gap:9px}}
+@media(prefers-reduced-motion:reduce){.headline-scroll,.motion-details{transform:none}.product-reveal{animation:none}}
+
+/* Directional text entrances begin as the desert spreads open. */
+.motion-details{opacity:1;transform:none}
+.motion-footer{opacity:1}
+.motion-details > *, .motion-footer > *{
+  opacity:0;
+  transition:transform .9s cubic-bezier(.22,1,.36,1),opacity .65s ease;
+}
+.motion-label{transform:translateX(-70px)}
+.motion-details h2{transform:translateY(-45px)}
+.motion-description{transform:translateX(70px)}
+.motion-footer > *{transform:translateY(35px)}
+.motion-stage[data-text-visible="true"] .motion-details > *,
+.motion-stage[data-text-visible="true"] .motion-footer > *{opacity:1;transform:translate(0,0)}
+.motion-stage[data-text-visible="true"] .motion-details h2{transition-delay:.1s}
+.motion-stage[data-text-visible="true"] .motion-description{transition-delay:.2s}
+.motion-stage[data-text-visible="true"] .motion-footer > a{transition-delay:.3s}
+.motion-stage[data-text-visible="true"] .motion-footer > div{transition-delay:.4s}
+.motion-stage[data-text-visible="true"] .motion-footer > span{transition-delay:.5s}
+@media(max-width:760px){.motion-label{transform:translateX(-35px)}.motion-description{transform:translateX(35px)}}
+@media(prefers-reduced-motion:reduce){.motion-details > *, .motion-footer > *{transform:none;transition:none}}
+
+/* Snap only near the two resting states; intermediate scroll stays continuous. */
+html{scroll-snap-type:y proximity;scroll-padding-top:0;scroll-behavior:smooth}
+.scroll-snap-point{position:absolute;left:0;width:1px;height:100svh;scroll-snap-align:start;scroll-snap-stop:normal;pointer-events:none;opacity:0}
+.scroll-snap-start{top:0}
+.scroll-snap-end{bottom:0}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* Hotel navigation remains above every state of the scroll scene. */
+.hotel-header{position:fixed;z-index:20;top:16px;left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:space-between;gap:28px;width:calc(100% - 64px);max-width:1440px;height:76px;margin:0;padding:0 26px;opacity:1;visibility:visible;background:rgba(248,249,250,.91);border:1px solid rgba(104,105,91,.13);border-radius:4px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 3px 18px #262a2310}
+.hotel-brand{display:flex;flex-direction:column;gap:4px;flex-shrink:0;color:#343b31}.hotel-brand-name{font-family:Georgia,serif;font-size:30px;letter-spacing:.15em;line-height:1}.hotel-brand-caption{font-size:7px;letter-spacing:.23em;line-height:1.2}
+.hotel-nav{display:flex;gap:30px;margin:0;color:#53594f}.hotel-nav a{display:block;font-size:12px;letter-spacing:0;white-space:nowrap}.hotel-nav a:hover{color:#9a623b}
+.hotel-actions{display:flex;align-items:center;gap:18px}.book-stay{display:flex;align-items:center;gap:24px;padding:13px 18px;border-radius:2px;color:#fffaf3;background:#515c45;font-size:12px;white-space:nowrap;transition:background .2s}.book-stay:hover{background:#384431}.book-stay span{font-size:18px;line-height:1}.menu-toggle{display:none;border:0;padding:10px 0;background:none;color:#343b31;font-size:12px}
+@media(max-width:900px){.hotel-header{width:calc(100% - 32px);padding:0 20px;gap:20px}.hotel-nav{gap:18px}.hotel-nav a{font-size:11px}.book-stay{gap:15px;padding:12px 15px}}
+@media(max-width:640px){.hotel-header{top:10px;width:calc(100% - 24px);height:66px;padding:0 16px;gap:12px}.hotel-brand-name{font-size:25px}.hotel-brand-caption{font-size:6px}.hotel-actions{gap:16px}.menu-toggle{display:block}.book-stay{padding:11px 12px;font-size:11px;gap:12px}.hotel-nav{display:none;position:absolute;top:calc(100% + 8px);left:-1px;right:-1px;padding:20px;background:#f8f9fa;border:1px solid #68695b22;border-radius:4px;box-shadow:0 10px 20px #262a2310}.hotel-nav.is-open{display:flex;flex-direction:column;align-items:stretch;gap:0}.hotel-nav a,.hotel-nav a:last-child{display:block;font-size:13px;padding:13px 0;border-bottom:1px solid #68695b19}.hotel-nav a:last-child{border-bottom:0}}
+
+.hotel-header{border-radius:44px}.book-stay{border-radius:28px}.hotel-brand-name{letter-spacing:.03em}.hotel-nav.is-open{border-radius:22px}html:has(.home-page){scroll-snap-type:none}
