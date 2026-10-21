@@ -65,7 +65,6 @@ function OurStory() {
     <div className="motion-stage story-page" id="start" ref={stageRef}>
       <div className="scroll-snap-point scroll-snap-start" aria-hidden="true" />
       <div className="scroll-snap-point scroll-snap-end" aria-hidden="true" />
-      <SiteHeader activePage="story" onAction={() => document.getElementById('hotel-story')?.scrollIntoView({ behavior: 'smooth' })} />
     <main className="mind-hero">
 
       <section className="opening-scene" aria-labelledby="hero-title">
@@ -98,6 +97,11 @@ function App() {
   const [page, setPage] = React.useState(() => routeFor(window.location.pathname));
   const pageRef = React.useRef(page);
   const transitionRef = React.useRef(null);
+  const navigateRef = React.useRef(null);
+  const headerAction = React.useCallback(() => {
+    if (pageRef.current !== 'home') navigateRef.current?.(new URL('/#booking', window.location.origin), true);
+    requestAnimationFrame(() => window.dispatchEvent(new Event('barli:open-booking')));
+  }, []);
 
   React.useEffect(() => {
     document.title = page === '404' ? 'Page Not Found | Barli Hotel' : page === 'rooms' ? 'Rooms & Suites | Barli Hotel' : page === 'story' ? 'Our Story | Barli Hotel' : 'Barli Hotel | Experience Unparalleled Luxury';
@@ -120,6 +124,7 @@ function App() {
         transitionRef.current = document.startViewTransition(update);
       } else update();
     };
+    navigateRef.current = navigate;
     const onClick = event => {
       if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       const anchor = event.target.closest('a[href]');
@@ -139,7 +144,7 @@ function App() {
     };
   }, []);
 
-  return page === 'story' ? <OurStory /> : page === 'rooms' ? <RoomsPage /> : page === 'home' ? <Home /> : <ErrorPage />;
+  return <div className="app-shell"><SiteHeader activePage={page} onAction={headerAction} />{page === 'story' ? <OurStory /> : page === 'rooms' ? <RoomsPage /> : page === 'home' ? <Home /> : <ErrorPage withHeader={false} />}</div>;
 }
 
 createRoot(document.getElementById('root')).render(<ErrorBoundary><App /></ErrorBoundary>);

@@ -36,7 +36,7 @@ export default function Experiences() {
       photos[2].style.opacity = secondFade;
       const active = current < .5 ? 0 : current < 1.5 ? 1 : 2;
       if (active !== previousLandmark) { setActiveLandmark(active); previousLandmark = active; }
-      image.style.setProperty('--experience-x', `${-32 * (a + b)}vw`);
+      image.style.setProperty('--experience-x', `${-(window.matchMedia('(max-width: 680px)').matches ? 23 : 32) * (a + b)}vw`);
       opening.style.opacity = 1 - clamp(a * 2);
       first.style.setProperty('--copy-y', `${-85 * (1 - a)}svh`);
       first.style.opacity = a * (1 - b);

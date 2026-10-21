@@ -1,5 +1,4 @@
 import React from 'react';
-import SiteHeader from './SiteHeader.jsx';
 import HotelDetails from './HotelDetails.jsx';
 import Restaurant from './Restaurant.jsx';
 import Experiences from './Experiences.jsx';
@@ -53,6 +52,11 @@ export default function Home() {
   };
   const dialogRef = React.useRef(null);
   const openBooking = () => { setSummary(null); setBooking(true); };
+  React.useEffect(() => {
+    const open = () => { setSummary(null); setBooking(true); };
+    window.addEventListener('barli:open-booking', open);
+    return () => window.removeEventListener('barli:open-booking', open);
+  }, []);
 
   React.useEffect(() => {
     if (booking) dialogRef.current?.showModal();
@@ -61,7 +65,6 @@ export default function Home() {
 
   return (
     <main className={`stay-home${heroVisible ? " hero-visible" : ""}${heroReturning ? " hero-returning" : ""}`}>
-      <SiteHeader onAction={openBooking} />
       <section className="stay-hero" aria-labelledby="stay-title">
         <div className="stay-copy">
           <div className="stay-eyebrow">Book Your Perfect Stay Today</div>
