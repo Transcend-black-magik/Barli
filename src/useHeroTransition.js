@@ -1,9 +1,9 @@
-﻿import React from 'react';
+import React from 'react';
 
 // One deliberate scroll carries the hero into the next section.
 export default function useHeroTransition() {
   React.useEffect(() => {
-    const media = window.matchMedia('(min-width: 901px) and (prefers-reduced-motion: no-preference)');
+    const media = window.matchMedia('(prefers-reduced-motion: no-preference)');
     let frame = 0;
     let moving = false;
     let lastGesture = 0;
@@ -41,16 +41,32 @@ export default function useHeroTransition() {
       frame = requestAnimationFrame(animate);
     };
     const onKey = event => { if (event.key === 'Escape' || ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '].includes(event.key)) cancel(); };
+    let touchY = null;
+    let touchX = null;
+    const onTouchStart = event => {
+      cancel();
+      touchY = event.touches.length === 1 ? event.touches[0].clientY : null;
+      touchX = event.touches.length === 1 ? event.touches[0].clientX : null;
+    };
+    const onTouchMove = event => {
+      if (touchY === null || event.touches.length !== 1) return;
+      const deltaY = touchY - event.touches[0].clientY;
+      const deltaX = touchX - event.touches[0].clientX;
+      if (Math.abs(deltaY) < 8 || Math.abs(deltaX) > Math.abs(deltaY)) return;
+      onWheel({ deltaY, deltaX, deltaMode: 0, ctrlKey: false, target: event.target, preventDefault: () => { if (event.cancelable) event.preventDefault(); } });
+    };
+    window.addEventListener('touchmove', onTouchMove, { passive: false });
     window.addEventListener('wheel', onWheel, { passive: false });
     window.addEventListener('keydown', onKey);
-    window.addEventListener('touchstart', cancel, { passive: true });
+    window.addEventListener('touchstart', onTouchStart, { passive: true });
     window.addEventListener('pointerdown', cancel);
     window.addEventListener('resize', cancel);
     return () => {
       cancel();
       window.removeEventListener('wheel', onWheel);
       window.removeEventListener('keydown', onKey);
-      window.removeEventListener('touchstart', cancel);
+      window.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchmove', onTouchMove);
       window.removeEventListener('pointerdown', cancel);
       window.removeEventListener('resize', cancel);
     };

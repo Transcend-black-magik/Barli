@@ -34,7 +34,7 @@ export default function HotelDetails({ onBook }) {
   }, []);
   React.useEffect(() => {
     const stack = stackRef.current;
-    const media = window.matchMedia('(min-width: 901px) and (prefers-reduced-motion: no-preference)');
+    const media = window.matchMedia('(prefers-reduced-motion: no-preference)');
     let frame;
     const render = () => {
       frame = null;
