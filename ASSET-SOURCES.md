@@ -19,3 +19,11 @@ These assets retain their original ownership; this project does not include an i
 ## Home reference
 
 Plushinn ? Hero exploration for luxury hotel: https://www.behance.net/gallery/200300657/Plushinn-Hero-exploration-for-luxury-hotel . Lounge photography crops and traced headline are derived from the supplied reference design, https://mir-s3-cdn-cf.behance.net/project_modules/max_3840/43f8de200300657.66602f4249e46.jpg . Original rights remain with their owners.
+
+
+Room section illustrative photography (Unsplash, downloaded locally):
+- room-deluxe.jpg: https://images.unsplash.com/photo-1611892440504-42a792e24d32
+- room-garden.jpg: https://images.unsplash.com/photo-1566665797739-1674de7a421a
+- room-suite.jpg: https://images.unsplash.com/photo-1590490360182-c33d57733427
+- room-penthouse.jpg: https://images.unsplash.com/photo-1582719478250-c89cae4dc85b
+Room names and imagery are illustrative pending actual property details.

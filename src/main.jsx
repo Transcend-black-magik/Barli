@@ -111,7 +111,8 @@ function App() {
         if (push) window.history.pushState(null, '', url.pathname + url.search + url.hash);
         pageRef.current = next;
         flushSync(() => setPage(next));
-        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+        if (url.hash === '#rooms') document.getElementById('rooms')?.scrollIntoView({ behavior: 'instant' });
+        else window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       };
       if (document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         transitionRef.current = document.startViewTransition(update);

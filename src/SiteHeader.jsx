@@ -29,7 +29,7 @@ export default function SiteHeader({ onAction = () => {}, activePage = 'home' })
       <a className="stay-brand" href="/" aria-label="Barli Hotel home" onClick={() => setMenuOpen(false)}><span>Barli</span><small>HOTEL</small></a>
       <nav className={menuOpen ? 'stay-nav is-open' : 'stay-nav'} id="stay-navigation" aria-label="Main navigation">
         <a href="/" aria-current={activePage === 'home' ? 'page' : undefined} onClick={() => setMenuOpen(false)}>Home</a>
-        <button type="button" onClick={onAction}>Rooms & Suites</button>
+        <a href="/#rooms" onClick={() => setMenuOpen(false)}>Rooms &amp; Suites</a>
         <button type="button" onClick={onAction}>Amenities</button>
         <button type="button" onClick={onAction}>Special Offers</button>
         <a href="/our-story/" aria-current={activePage === 'story' ? 'page' : undefined} onClick={() => setMenuOpen(false)}>Our Story</a>

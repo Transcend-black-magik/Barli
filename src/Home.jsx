@@ -1,5 +1,6 @@
 import React from 'react';
 import SiteHeader from './SiteHeader.jsx';
+import Rooms from './Rooms.jsx';
 
 export default function Home() {
   const [booking, setBooking] = React.useState(false);
@@ -61,6 +62,7 @@ export default function Home() {
           <button className="stay-search-submit" type="submit">Find Room</button>
         </form>
       </section>
+      <Rooms />
       <dialog className="booking-dialog" ref={dialogRef} onCancel={() => setBooking(false)} onClick={event => { if (event.target === event.currentTarget) setBooking(false); }}>
         <button className="booking-close" type="button" aria-label="Close" onClick={() => setBooking(false)}>&times;</button>
         <span className="booking-eyebrow">BARLI HOTEL</span>
