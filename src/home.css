@@ -1199,3 +1199,22 @@ background:#163b73;box-shadow:inset 0 2px 4px #081b3a50,0 2px 0 #091f41,0 5px 10
 .landscape-footer-body,.landscape-footer-base{background:#000}
 .landscape-footer-base{border-top:1px solid #242424}
 @media(max-width:680px){.barli-footer.landscape-footer{padding-top:20px}}
+
+/* Short touch viewports use readable flow instead of clipped sticky panels. */
+@media(max-height:599px){
+.hotel-stack{height:auto}
+.hotel-stack-scene{position:relative;top:auto;display:flex;flex-direction:column;height:auto;overflow:visible}
+.hotel-stack-scene>.hotel-details,.hotel-stack-scene>.rooms-section,.hotel-stack-scene>.amenities-section{position:relative;inset:auto;height:auto;min-height:0;transform:none;will-change:auto;padding-top:30px;padding-bottom:30px}
+.hotel-stack-scene>.hotel-details{order:1}
+.hotel-stack-scene>.rooms-section{order:2}
+.hotel-stack-scene>.amenities-section{order:3}
+.hotel-stack-scene .room-preview{min-height:300px}
+.hotel-stack-scene .rooms-view>.rooms-layout{height:auto}
+.hotel-stack-scene .rooms-layout{min-height:400px}
+.hotel-stack-scene .amenities-gallery{flex:none;height:300px}
+.hotel-stack-scene .rooms-cards{max-height:none;overflow:visible}
+}
+@media(any-pointer:coarse){
+html{scroll-behavior:auto;scroll-snap-type:none}
+.stay-home .stay-search{scroll-margin-top:calc(var(--header-height) + 16px)}
+}

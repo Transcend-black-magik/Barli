@@ -21,9 +21,11 @@ export default function Experiences() {
     const second = root.querySelector('.experience-copy-second');
     const motion = window.matchMedia('(prefers-reduced-motion: no-preference)');
     let frame = 0, target = 0, current = 0, last = 0;
-    let top = 0, travel = 1;
+    let top = 0, travel = 1, painted = false;
+    let mobileLayout = window.matchMedia('(max-width: 680px)').matches;
     const clamp = value => Math.max(0, Math.min(1, value));
     const draw = time => {
+      painted = true;
       const dt = last ? Math.min(64, time - last) : 16;
       last = time;
       current += (target - current) * (1 - Math.exp(-dt / 90));
@@ -36,7 +38,7 @@ export default function Experiences() {
       photos[2].style.opacity = secondFade;
       const active = current < .5 ? 0 : current < 1.5 ? 1 : 2;
       if (active !== previousLandmark) { setActiveLandmark(active); previousLandmark = active; }
-      image.style.setProperty('--experience-x', `${-(window.matchMedia('(max-width: 680px)').matches ? 23 : 32) * (a + b)}vw`);
+      image.style.setProperty('--experience-x', `${-(mobileLayout ? 23 : 32) * (a + b)}vw`);
       opening.style.opacity = 1 - clamp(a * 2);
       first.style.setProperty('--copy-y', `${-85 * (1 - a)}svh`);
       first.style.opacity = a * (1 - b);
@@ -48,10 +50,13 @@ export default function Experiences() {
       else { frame = 0; last = 0; }
     };
     const schedule = () => {
-      target = motion.matches ? clamp((window.scrollY - top) / travel) * 2 : 0;
+      const next = motion.matches ? clamp((window.scrollY - top) / travel) * 2 : 0;
+      if (next === target && !frame && painted) return;
+      target = next;
       if (!frame) frame = requestAnimationFrame(draw);
     };
     const measure = () => {
+      mobileLayout = window.matchMedia('(max-width: 680px)').matches;
       const header = document.querySelector('.shared-header')?.offsetHeight || 80;
       top = root.getBoundingClientRect().top + window.scrollY - header;
       travel = Math.max(1, root.offsetHeight - scene.offsetHeight);

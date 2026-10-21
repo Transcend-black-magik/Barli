@@ -1,8 +1,11 @@
 import React from 'react';
+import useSectionTransitionSupport from './useSectionTransitionSupport.js';
 
 // One deliberate scroll carries the hero into the next section.
 export default function useHeroTransition() {
+  const supported = useSectionTransitionSupport();
   React.useEffect(() => {
+    if (!supported) return;
     const media = window.matchMedia('(prefers-reduced-motion: no-preference)');
     const mobile = window.matchMedia('(max-width: 680px)');
     let frame = 0;
@@ -105,5 +108,5 @@ export default function useHeroTransition() {
       window.removeEventListener('pointerdown', cancel);
       window.removeEventListener('resize', cancel);
     };
-  }, []);
+  }, [supported]);
 }

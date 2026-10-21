@@ -133,3 +133,23 @@
 
 /* The Rooms page uses its own stops, without competing document snapping. */
 html:has(.rooms-story-page){scroll-snap-type:none}
+
+/* Natural Rooms scrolling; pair height grows if text needs more room. */
+.rooms-paired-features{height:var(--room-pair-height,calc(100svh - var(--header-height) - 40px));overflow:visible}
+@media(max-width:680px){
+.rooms-paired-features{height:var(--room-pair-height,calc(100svh - var(--header-height) - 40px));gap:24px;padding:18px 0}
+.rooms-paired-features .collection-room{grid-template-columns:1.35fr .65fr;gap:14px;min-height:0}
+.rooms-paired-features .room-reversed{grid-template-columns:.65fr 1.35fr}
+.rooms-paired-features .collection-room h3{font-size:20px;line-height:1.15;margin:7px 0}
+.rooms-paired-features .collection-room h4{font-size:12px;line-height:1.4}
+.rooms-paired-features .collection-room-copy>p{font-size:11px;line-height:1.55}
+.rooms-paired-features .collection-room-kicker{font-size:6px}
+.rooms-paired-features .collection-room-copy>a{font-size:10px;margin-top:10px}
+.collection-room-copy,.collection-room-image{transition-duration:.65s;transition-delay:0s}
+.collection-room:not(.feature-visible) .collection-room-copy{translate:-24px 0}
+.collection-room:not(.feature-visible) .collection-room-image{translate:24px 0}
+.collection-room.room-reversed:not(.feature-visible) .collection-room-copy{translate:24px 0}
+.collection-room.room-reversed:not(.feature-visible) .collection-room-image{translate:-24px 0}
+.collection-room-image img{transition:none}
+.collection-room-image:hover img{transform:none}
+}

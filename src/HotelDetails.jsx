@@ -30,7 +30,12 @@ export default function HotelDetails({ onBook }) {
   const [entered, setEntered] = React.useState(false);
   React.useEffect(() => {
     const stack = stackRef.current;
-    const media = window.matchMedia('(prefers-reduced-motion: no-preference)');
+    const media = window.matchMedia('(prefers-reduced-motion: no-preference) and (min-height: 600px)');
+    const scene = stack.querySelector('.hotel-stack-scene');
+    const detailsPanel = stack.querySelector('.hotel-details');
+    let visible = false, previousVisible = null;
+    let detailsShown = false, roomsShown = false, amenitiesShown = false, detailsHidden = false;
+    let compact = window.matchMedia('(any-pointer: coarse), (max-width: 900px)').matches;
     let frame = 0;
     let target = 0;
     let current = 0;
@@ -39,25 +44,31 @@ export default function HotelDetails({ onBook }) {
       const elapsed = lastTime ? Math.min(time - lastTime, 64) : 16;
       lastTime = time;
       // Follow wheel and touch movement with a consistent, gentle catch-up.
-      current += (target - current) * (1 - Math.exp(-elapsed / 165));
+      current += (target - current) * (1 - Math.exp(-elapsed / (compact ? 55 : 165)));
       if (!media.matches || Math.abs(target - current) < .0002) current = target;
       const phase = current * 2;
-      const sceneBounds = stack.querySelector('.hotel-stack-scene').getBoundingClientRect();
-      const visible = sceneBounds.top < window.innerHeight * .9 && sceneBounds.bottom > 100;
-      setEntered(previous => !media.matches || (visible && phase < .35 && (previous || phase < .12)));
-      // Reset while leaving; on return, wait until the room panel is visible.
-      setRoomsRevealed(previous => !media.matches || (visible && phase > .35 && phase < 1.35 && (previous || phase < 1.12)));
-      setAmenitiesRevealed(!media.matches || (visible && phase > 1.35));
+      const nextDetails = !media.matches || (visible && phase < .35 && (detailsShown || phase < .12));
+      const nextRooms = !media.matches || (visible && phase > .35 && phase < 1.35 && (roomsShown || phase < 1.12));
+      const nextAmenities = !media.matches || (visible && phase > 1.35);
+      if (nextDetails !== detailsShown) { detailsShown = nextDetails; setEntered(nextDetails); }
+      if (nextRooms !== roomsShown) { roomsShown = nextRooms; setRoomsRevealed(nextRooms); }
+      if (nextAmenities !== amenitiesShown) { amenitiesShown = nextAmenities; setAmenitiesRevealed(nextAmenities); }
       stack.style.setProperty('--rooms-lift', `${Math.max(0, phase - 1) * -105}%`);
       stack.style.setProperty('--details-lift', `${Math.min(1, phase) * -105}%`);
-      stack.querySelector('.hotel-details').inert = media.matches && phase > .98;
+      const hidden = media.matches && phase > .98;
+      if (hidden !== detailsHidden) { detailsHidden = hidden; detailsPanel.inert = hidden; }
       if (current !== target) frame = requestAnimationFrame(render);
       else { frame = 0; lastTime = 0; }
     };
     const schedule = () => {
-      const scene = stack.querySelector('.hotel-stack-scene');
+      const sceneBounds = scene.getBoundingClientRect();
       const travel = stack.offsetHeight - scene.offsetHeight;
-      target = media.matches && travel > 0 ? Math.max(0, Math.min(1, (scene.getBoundingClientRect().top - stack.getBoundingClientRect().top) / travel)) : 0;
+      const next = media.matches && travel > 0 ? Math.max(0, Math.min(1, (sceneBounds.top - stack.getBoundingClientRect().top) / travel)) : 0;
+      visible = sceneBounds.top < window.innerHeight * .9 && sceneBounds.bottom > 100;
+      if (next === target && previousVisible === visible && !frame) return;
+      previousVisible = visible;
+      target = next;
+      compact = window.matchMedia('(any-pointer: coarse), (max-width: 900px)').matches;
       if (!frame) frame = requestAnimationFrame(render);
     };
     schedule();
