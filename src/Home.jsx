@@ -5,6 +5,22 @@ import useHeroTransition from './useHeroTransition.js';
 
 export default function Home() {
   useHeroTransition();
+  const [heroVisible, setHeroVisible] = React.useState(true);
+  const [heroReturning, setHeroReturning] = React.useState(false);
+  const heroExited = React.useRef(false);
+  React.useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.intersectionRatio < .1) {
+        heroExited.current = true;
+        setHeroVisible(false);
+      } else if (entry.intersectionRatio >= Math.min(1, window.innerHeight / entry.boundingClientRect.height) * .65) {
+        if (heroExited.current) setHeroReturning(true);
+        setHeroVisible(true);
+      }
+    }, { threshold: Array.from({ length: 21 }, (_, index) => index / 20) });
+    observer.observe(document.querySelector('.stay-hero'));
+    return () => observer.disconnect();
+  }, []);
   const [booking, setBooking] = React.useState(false);
   const [stay, setStay] = React.useState({ location: '', checkIn: '', checkOut: '', adults: '2', rooms: '1' });
   const [summary, setSummary] = React.useState(null);
@@ -39,7 +55,7 @@ export default function Home() {
   }, [booking]);
 
   return (
-    <main className="stay-home">
+    <main className={`stay-home${heroVisible ? " hero-visible" : ""}${heroReturning ? " hero-returning" : ""}`}>
       <SiteHeader onAction={openBooking} />
       <section className="stay-hero" aria-labelledby="stay-title">
         <div className="stay-copy">

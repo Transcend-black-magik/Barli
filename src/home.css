@@ -772,3 +772,46 @@ html,body,#root{background:#fff}
 /* Let the moving photography span the screen, independently of the heading. */
 .hotel-stack-scene>.amenities-section{--amenities-inset:max(var(--stack-gutter),calc((100vw - 1600px)/2))}
 .amenities-section .amenities-gallery.amenities-marquee{flex-shrink:0;align-self:stretch;width:calc(100% + var(--amenities-inset)*2);margin-left:calc(-1*var(--amenities-inset));margin-right:calc(-1*var(--amenities-inset))}
+
+/* Reset entrances on exit, then replay smoothly in either scroll direction. */
+@media(prefers-reduced-motion:no-preference){
+.rooms-section .rooms-list,.rooms-section .room-preview,.rooms-section .rooms-view-more{animation:none;transition:opacity .8s ease,transform 1.25s cubic-bezier(.16,1,.3,1)}
+.rooms-section:not(.rooms-entered) .rooms-list{opacity:0;transform:translateX(-75px)}
+.rooms-section:not(.rooms-entered) .room-preview{opacity:0;transform:translateX(75px)}
+.rooms-section:not(.rooms-entered) .rooms-view-more{opacity:0;transform:translateY(35px)}
+.rooms-section.rooms-entered .rooms-list,.rooms-section.rooms-entered .room-preview,.rooms-section.rooms-entered .rooms-view-more{opacity:1;transform:none}
+.rooms-entered .room-preview{transition-delay:.18s}
+.rooms-entered .rooms-view-more{transition-delay:.4s}
+.amenities-section .amenities-title-row,.amenities-section .amenity-card{animation:none;transition:opacity .9s ease,transform 1.3s cubic-bezier(.16,1,.3,1)}
+.amenities-section:not(.amenities-entered) .amenities-title-row{opacity:0;transform:translateX(-75px)}
+.amenities-section:not(.amenities-entered) .amenity-card{opacity:0;transform:translateY(60px)}
+.amenities-section.amenities-entered .amenities-title-row,.amenities-section.amenities-entered .amenity-card{opacity:1;transform:none}
+.amenities-entered .amenity-card{transition-delay:var(--amenity-delay)}
+.stay-home:not(.hero-visible) :is(.stay-eyebrow,.stay-title-line,.stay-intro,.stay-ctas>*,.stay-gallery .stay-image,.stay-search,.stay-search>button,.stay-search .search-control){animation:none;opacity:0}
+}
+
+/* Replay the original side entrances after returning from Amenities. */
+@media(prefers-reduced-motion:no-preference){
+.rooms-section:not(.rooms-entered) .rooms-list,.rooms-section:not(.rooms-entered) .room-preview,.rooms-section:not(.rooms-entered) .rooms-view-more{animation:none;transition:none}
+.rooms-section.rooms-entered .rooms-list{transition:none;animation:rooms-from-left 1.4s cubic-bezier(.16,1,.3,1) .1s both}
+.rooms-section.rooms-entered .room-preview{transition:none;animation:rooms-from-right 1.4s cubic-bezier(.16,1,.3,1) .3s both}
+.rooms-section.rooms-entered .rooms-view-more{transition:none;animation:rooms-from-bottom 1.1s cubic-bezier(.16,1,.3,1) .7s both}
+}
+
+/* Hotel Details repeats its original entrances when scrolling back. */
+@media(prefers-reduced-motion:no-preference){
+.hotel-details .hotel-details-intro{animation:none;transition:none;opacity:1;transform:none}
+.hotel-details:not(.has-entered) h2,.hotel-details:not(.has-entered) .hotel-details-list,.hotel-details:not(.has-entered) .hotel-details-book{animation:none;transition:none;opacity:0}
+.hotel-details.has-entered h2{animation:rooms-from-left 1.4s cubic-bezier(.16,1,.3,1) .1s both}
+.hotel-details.has-entered .hotel-details-list{transition:none;animation:rooms-from-right 1.4s cubic-bezier(.16,1,.3,1) .3s both}
+.hotel-details.has-entered .hotel-details-book{animation:rooms-from-bottom 1.1s cubic-bezier(.16,1,.3,1) .7s both}
+}
+
+/* On returning to the hero, use three coordinated groups. */
+@media(prefers-reduced-motion:no-preference){
+.stay-home.hero-returning.hero-visible :is(.stay-eyebrow,.stay-title-line,.stay-intro,.stay-ctas>*,.stay-gallery .stay-image,.stay-search>button,.stay-search .search-control){animation:none;opacity:1;transform:none}
+.stay-home.hero-returning.hero-visible .stay-copy{animation:rooms-from-left 1.5s cubic-bezier(.16,1,.3,1) .1s both}
+.stay-home.hero-returning.hero-visible .stay-gallery{animation:rooms-from-right 1.5s cubic-bezier(.16,1,.3,1) .25s both}
+.stay-home.hero-returning.hero-visible .stay-search{animation:rooms-from-bottom 1.3s cubic-bezier(.16,1,.3,1) .55s both}
+.stay-home.hero-returning:not(.hero-visible) .stay-copy,.stay-home.hero-returning:not(.hero-visible) .stay-gallery,.stay-home.hero-returning:not(.hero-visible) .stay-search{animation:none;opacity:0}
+}

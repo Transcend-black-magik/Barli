@@ -29,13 +29,6 @@ export default function HotelDetails({ onBook }) {
   const stackRef = React.useRef(null);
   const [entered, setEntered] = React.useState(false);
   React.useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) { setEntered(true); observer.disconnect(); }
-    }, { threshold: .15 });
-    observer.observe(stackRef.current.querySelector('.hotel-details'));
-    return () => observer.disconnect();
-  }, []);
-  React.useEffect(() => {
     const stack = stackRef.current;
     const media = window.matchMedia('(prefers-reduced-motion: no-preference)');
     let frame = 0;
@@ -49,8 +42,12 @@ export default function HotelDetails({ onBook }) {
       current += (target - current) * (1 - Math.exp(-elapsed / 165));
       if (!media.matches || Math.abs(target - current) < .0002) current = target;
       const phase = current * 2;
-      setRoomsRevealed(!media.matches || phase > .35);
-      setAmenitiesRevealed(!media.matches || phase > 1.35);
+      const sceneBounds = stack.querySelector('.hotel-stack-scene').getBoundingClientRect();
+      const visible = sceneBounds.top < window.innerHeight * .9 && sceneBounds.bottom > 100;
+      setEntered(previous => !media.matches || (visible && phase < .35 && (previous || phase < .12)));
+      // Reset while leaving; on return, wait until the room panel is visible.
+      setRoomsRevealed(previous => !media.matches || (visible && phase > .35 && phase < 1.35 && (previous || phase < 1.12)));
+      setAmenitiesRevealed(!media.matches || (visible && phase > 1.35));
       stack.style.setProperty('--rooms-lift', `${Math.max(0, phase - 1) * -105}%`);
       stack.style.setProperty('--details-lift', `${Math.min(1, phase) * -105}%`);
       stack.querySelector('.hotel-details').inert = media.matches && phase > .98;

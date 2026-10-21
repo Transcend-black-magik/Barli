@@ -13,7 +13,7 @@ export default function Rooms({ fullPage = false, revealed }) {
   React.useEffect(() => {
     if (revealed !== undefined) return;
     const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) { setInView(true); observer.disconnect(); }
+      setInView(entry.isIntersecting);
     }, { threshold: .15 });
     observer.observe(sectionRef.current);
     return () => observer.disconnect();
