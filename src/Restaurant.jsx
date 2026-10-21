@@ -6,9 +6,9 @@ const courses = [
   { title: 'Dessert', description: 'Finish your kitchen experience with a little sweetness.', position: '100% 100%', label: 'Caramel pastry tart with chocolate drizzle' },
 ];
 const random = seed => { const value = Math.sin(seed * 127.1 + 311.7) * 43758.5453; return value - Math.floor(value); };
-function SaltTrail({ index, halo = false }) {
+const SaltTrail = React.memo(function SaltTrail({ index, halo = false, compact = false }) {
   const reversed = index % 2 === 1;
-  const count = halo ? 340 : 680;
+  const count = halo ? (compact ? 160 : 340) : (compact ? 340 : 680);
   const grains = Array.from({ length: count }, (_, i) => {
     const t = i / (count - 1);
     const seed = i + index * 997 + (halo ? 53 : 0);
@@ -33,9 +33,16 @@ function SaltTrail({ index, halo = false }) {
     return <path key={i} className="salt-grain" d={`M${x} ${y-size}l${size} ${size*.6}-.3 ${size} -${size*1.4} ${size*.3}Z`} fill={['#aca493','#d5cfc2','#8e887c','#e6e0d5'][i % 4]} fillOpacity={.4 + random(seed + 5) * .6} />;
   });
   return <svg className={halo ? 'salt-halo' : 'salt-trail'} data-salt={halo ? 'halo' : 'trail'} viewBox={halo ? '0 0 100 100' : '0 0 1000 1000'} preserveAspectRatio="none" aria-hidden="true">{grains}</svg>;
-}
+});
 export default function Restaurant() {
   const ref = React.useRef(null);
+  const [compact, setCompact] = React.useState(() => window.matchMedia('(max-width: 680px)').matches);
+  React.useEffect(() => {
+    const media = window.matchMedia('(max-width: 680px)');
+    const update = () => setCompact(media.matches);
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, []);
   const [entered, setEntered] = React.useState(false);
   React.useEffect(() => {
     const root = ref.current;
@@ -43,6 +50,8 @@ export default function Restaurant() {
     const track = root.querySelector('.restaurant-track');
     const motion = window.matchMedia('(prefers-reduced-motion: no-preference)');
     const panels = [...root.querySelectorAll('.course')];
+    const copies = panels.map(panel => panel.querySelector('.course-copy'));
+    const activePanels = panels.map(() => null);
     const saltGroups = panels.map(panel => [...panel.querySelectorAll('[data-salt]')].map(svg => ({ kind: svg.dataset.salt, grains: [...svg.children], shown: 0 })));
     const showGrains = (group, progress) => {
       const count = Math.floor(progress * group.grains.length);
@@ -50,19 +59,35 @@ export default function Restaurant() {
       group.shown = count;
     };
     let frame = 0, target = 0, current = 0, last = 0;
+    let geometry;
+    let wasEntered = null;
+    const measure = () => {
+      // Read layout together, only when dimensions change, never during painting.
+      geometry = {
+        header: document.querySelector('.shared-header')?.offsetHeight || 80,
+        sceneHeight: scene.clientHeight,
+        distance: Math.max(1, root.offsetHeight - scene.offsetHeight),
+        lift: Math.max(0, track.scrollHeight - scene.clientHeight + 30),
+        panels: panels.map(panel => ({ top: panel.offsetTop, height: panel.offsetHeight })),
+      };
+    };
     const draw = time => {
       const elapsed = last ? Math.min(64, time - last) : 16;
       last = time;
-      current += (target - current) * (1 - Math.exp(-elapsed / 150));
+      current += (target - current) * (1 - Math.exp(-elapsed / (compact ? 55 : 150)));
       if (Math.abs(target - current) < .05 || !motion.matches) current = target;
       track.style.setProperty('--menu-lift', `${-current}px`);
       const clamp = value => Math.max(0, Math.min(1, value));
-      const trails = panels.map(course => motion.matches ? clamp((current - course.offsetTop + scene.clientHeight * .3) / Math.max(1, course.offsetHeight - scene.clientHeight * .1)) : 1);
+      const trails = geometry.panels.map(course => motion.matches ? clamp((current - course.top + geometry.sceneHeight * .3) / Math.max(1, course.height - geometry.sceneHeight * .1)) : 1);
       panels.forEach((course, index) => {
         const incoming = index === 0 ? 1 : trails[index - 1];
         course.style.setProperty('--plate-angle', `${index === 0 ? 0 : (1 - incoming) * (index % 2 ? 65 : -50)}deg`);
-        course.classList.toggle('course-is-active', incoming >= .94);
-        course.querySelector('.course-copy').inert = incoming < .94;
+        const active = incoming >= .94;
+        if (activePanels[index] !== active) {
+          course.classList.toggle('course-is-active', active);
+          copies[index].inert = !active;
+          activePanels[index] = active;
+        }
         saltGroups[index].forEach(group => showGrains(group, group.kind === 'trail' ? trails[index] : index === 0 ? 1 : clamp((incoming - .55) / .45)));
       });
       if (Math.abs(target - current) >= .05) frame = requestAnimationFrame(draw);
@@ -70,25 +95,27 @@ export default function Restaurant() {
     };
     const schedule = () => {
       const rect = root.getBoundingClientRect();
-      const header = document.querySelector('.shared-header')?.offsetHeight || 80;
-      const distance = Math.max(1, root.offsetHeight - scene.offsetHeight);
-      const progress = Math.max(0, Math.min(1, (header - rect.top) / distance));
-      target = motion.matches ? progress * Math.max(0, track.scrollHeight - scene.clientHeight + 30) : 0;
-      setEntered(rect.top < window.innerHeight * .8 && rect.bottom > header);
+      const progress = Math.max(0, Math.min(1, (geometry.header - rect.top) / geometry.distance));
+      const nextTarget = motion.matches ? progress * geometry.lift : 0;
+      const visible = rect.top < window.innerHeight * .8 && rect.bottom > geometry.header;
+      if (visible !== wasEntered) { setEntered(visible); wasEntered = visible; }
+      if (nextTarget === target && !frame && activePanels[0] !== null) return;
+      target = nextTarget;
       if (!frame) frame = requestAnimationFrame(draw);
     };
-    schedule();
-    const resize = new ResizeObserver(schedule); resize.observe(scene); resize.observe(track);
+    const onResize = () => { measure(); schedule(); };
+    onResize();
+    const resize = new ResizeObserver(onResize); resize.observe(scene); resize.observe(track); resize.observe(root);
     window.addEventListener('scroll', schedule, { passive: true });
-    window.addEventListener('resize', schedule); motion.addEventListener('change', schedule);
-    return () => { cancelAnimationFrame(frame); resize.disconnect(); window.removeEventListener('scroll', schedule); window.removeEventListener('resize', schedule); motion.removeEventListener('change', schedule); };
-  }, []);
+    window.addEventListener('resize', onResize); motion.addEventListener('change', onResize);
+    return () => { cancelAnimationFrame(frame); resize.disconnect(); window.removeEventListener('scroll', schedule); window.removeEventListener('resize', onResize); motion.removeEventListener('change', onResize); };
+  }, [compact]);
   return <section ref={ref} id="restaurant" className={`restaurant-section${entered ? ' restaurant-entered' : ''}`} aria-labelledby="restaurant-heading">
     <div className="restaurant-scene"><div className="restaurant-track">
       <header className="restaurant-intro"><div><span>Discover</span><h2 id="restaurant-heading">Our Menu</h2></div><p>Every dish begins with a little inspiration. Fresh ingredients, thoughtful flavours, and something worth slowing down for. Come hungry. Stay for one more course.</p></header>
       {courses.map((course, index) => <article className={`course course-${index + 1}`} key={course.title}>
-        {index < courses.length - 1 && <SaltTrail index={index} />}
-        <SaltTrail index={index} halo />
+        {index < courses.length - 1 && <SaltTrail index={index} compact={compact} />}
+        <SaltTrail index={index} halo compact={compact} />
         <div className="course-plate" role="img" aria-label={course.label}><div className="course-food" style={{ backgroundPosition: course.position }} /></div>
         <div className="course-copy"><span className="course-number">0{index + 1} / A TASTE OF BARLI</span><h3>{course.title}</h3><p>{course.description}</p>{index === 3 && <a href="/#booking">Make a stay of it <span aria-hidden="true">&#8599;</span></a>}</div>
       </article>)}

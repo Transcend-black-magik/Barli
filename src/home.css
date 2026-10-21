@@ -886,3 +886,11 @@ html,body,#root{background:#fff}
 .course-copy>a{color:#163b73;border-color:#163b73}
 .restaurant-section .salt-grain{fill:revert-layer}
 .restaurant-section .course-plate{filter:drop-shadow(0 14px 16px #4b391b16)}
+
+/* Reduce repaint cost while keeping the complete mobile dining sequence. */
+@media(max-width:680px){
+.restaurant-section .course-plate{filter:none;backface-visibility:hidden}
+.restaurant-track{backface-visibility:hidden}
+.restaurant-section .salt-trail,.restaurant-section .salt-halo{contain:layout style}
+.restaurant-scene{touch-action:pan-y}
+}
