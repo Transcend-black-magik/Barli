@@ -47,3 +47,60 @@
   .home-photo{height:min(110vw,75svh);min-height:0}
   .original-photo{object-fit:cover}
 }
+
+/* Keep the reference photo fully framed and the editorial elements restrained. */
+.home-stars{width:78px;height:16px;line-height:1}
+.home-stars svg{display:block;width:100%;height:100%;overflow:visible}
+@media(min-width:701px){
+  .home-masthead{grid-template-columns:10.8vw 16.8vw 1fr}
+  .home-logo>span{font-size:26px}
+  .home-logo small{font-size:8px}
+  .home-nav a,.home-nav button,.home-contact{font-size:12px}
+  .home-contact button{font-size:11px}
+  .home-nav{gap:8px}
+  .home-endorsement{top:25svh;left:11.6vw}
+  .home-endorsement p{font-size:12px;line-height:1.4;margin-top:7px}
+  .home-page .home-title{top:34svh;width:min(32vw,49svh)}
+  .home-book{left:11.6vw;top:74svh;width:clamp(190px,18vw,290px);height:54px;min-height:0;padding:0 18px;font-size:12px}
+  .home-book>span:last-child{font-size:21px}
+  .home-language{font-size:11px}
+  .home-photo{left:auto;right:2vw;top:3.5svh;bottom:3.5svh;width:min(47.9vw,73.97svh)}
+  .original-photo{object-fit:contain;object-position:center}
+  .home-gallery-controls{width:40px;gap:4px}
+  .home-gallery-controls button{width:34px;height:30px}
+  .home-gallery-controls button span{font-size:27px}
+  .gallery-count{font-size:13px;line-height:1.4;padding:2px}
+}
+@media(max-width:700px){.home-stars{width:73px;height:15px}.home-page .home-title{width:86%;max-width:420px}.home-book{width:min(64%,260px);height:50px}}
+
+.home-mobile-actions{display:none}
+@media(max-width:700px){
+  .home-masthead{display:flex;align-items:center;justify-content:space-between;min-height:44px;gap:16px;z-index:10}
+  .home-masthead>.home-contact{display:none}
+  .home-mobile-actions{display:flex;align-items:center;gap:12px}
+  .home-menu-toggle{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;width:44px;height:44px;padding:10px;border:1px solid #e2e7df;border-radius:8px;background:white;color:#263822}
+  .home-menu-toggle>span{display:block;width:20px;height:1.5px;background:currentColor;transition:transform .2s,opacity .2s}
+  .home-menu-toggle.is-open>span:first-child{transform:translateY(6.5px) rotate(45deg)}
+  .home-menu-toggle.is-open>span:nth-child(2){opacity:0}
+  .home-menu-toggle.is-open>span:last-child{transform:translateY(-6.5px) rotate(-45deg)}
+  .home-mobile-contact{display:flex;align-items:center;gap:14px;height:44px;padding:0 15px;border:0;border-radius:8px;background:#405a3e;color:#fff;font-size:12px}
+  .home-mobile-contact svg{width:19px;height:19px}
+  .home-nav{display:none;position:absolute;top:calc(100% + 12px);left:0;right:0;padding:12px 18px;border:1px solid #e2e7df;border-radius:12px;background:#fff;box-shadow:0 14px 36px #1f302118}
+  .home-nav.mobile-open{display:flex;gap:0}
+  .home-nav a,.home-nav button{display:block;width:100%;padding:12px 0;font-size:13px;line-height:1.4;border-bottom:1px solid #edf0eb}
+  .home-nav a:last-child{border-bottom:0}
+  .home-endorsement{margin-top:42px}
+}
+
+/* Stagger the hero entrance so each element has its own direction and pace. */
+.hero-enter{animation-duration:1.15s;animation-timing-function:cubic-bezier(.22,.75,.25,1);animation-fill-mode:both;will-change:transform,opacity}
+.hero-enter-rating{animation-name:hero-from-top;animation-delay:.15s}
+.hero-enter-title{animation-name:hero-from-right;animation-delay:.55s}
+.hero-enter-book{animation-name:hero-from-right;animation-delay:.95s}
+.hero-enter-photo{animation-name:hero-reveal-left;animation-delay:.35s}
+@keyframes hero-from-top{from{opacity:0;transform:translateY(-28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes hero-from-right{from{opacity:0;transform:translateX(48px)}to{opacity:1;transform:translateX(0)}}
+@keyframes hero-reveal-left{from{opacity:.25;clip-path:inset(0 100% 0 0)}to{opacity:1;clip-path:inset(0 0 0 0)}}
+@media(prefers-reduced-motion:reduce){
+  .hero-enter{animation:none;will-change:auto}
+}
