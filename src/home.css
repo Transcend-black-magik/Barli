@@ -402,3 +402,30 @@ html[data-navigation='back']::view-transition-new(root){animation-name:page-ente
 .stay-home .stay-secondary{color:#2563eb}
 .shared-header :is(button,a):focus-visible,.stay-home :is(button,a):focus-visible{outline-color:#2563eb}
 .stay-home .booking-dialog>a{color:#2563eb;border-color:#2563eb}
+
+/* Live booking fields retain the floating panel layout. */
+.stay-home .stay-search .search-control{display:flex;align-items:center;gap:12px;min-width:0;padding:0 12px;height:100%;cursor:pointer}
+.search-field{display:flex;flex:1;flex-direction:column;gap:7px;min-width:0}
+.search-field>span{font-size:14px;font-weight:500;color:#222}
+.search-field input,.search-field select{font-family:inherit;font-size:12px;min-width:0;width:100%;border:0;background:transparent;color:#555;padding:5px 0;border-radius:3px;color-scheme:light}
+.search-field input::placeholder{color:#777;opacity:1}
+.search-field input:focus-visible,.search-field select:focus-visible{outline:2px solid #2563eb;outline-offset:3px}
+.guest-selects{display:flex;gap:4px;min-width:0}
+.stay-summary{margin:22px 0;font-size:14px}
+.stay-summary>div{display:flex;justify-content:space-between;gap:18px;border-bottom:1px solid #eee;padding:12px 0}
+.stay-summary dt{color:#666}.stay-summary dd{margin:0;text-align:right;overflow-wrap:anywhere}
+.stay-home .stay-search .search-control{animation:hero-arrive 1.5s cubic-bezier(.16,1,.3,1) 3.1s both}
+.stay-home .stay-search .search-control:nth-child(2){animation-delay:3.35s}
+.stay-home .stay-search .search-control:nth-child(3){animation-delay:3.6s}
+.stay-home .stay-search .search-control:nth-child(4){animation-delay:3.85s}
+@media(max-width:1050px){.stay-home .stay-search .search-control{padding:0 6px;gap:6px}.search-field>span{font-size:12px}.search-field input,.search-field select{font-size:11px}}
+@media(max-width:680px){.stay-home .stay-search .search-control{min-height:64px;padding:6px;gap:7px}.stay-home .stay-search .search-control .search-icon{flex-basis:20px;width:20px}.search-field{gap:4px}.search-field input{max-width:100%}}
+@media(prefers-reduced-motion:reduce){.stay-home .stay-search .search-control{animation:none}}
+
+/* Deeper navy actions and an emerald brand accent. */
+.shared-header .stay-brand,.stay-home .stay-brand{color:#14705b}
+.shared-header .stay-login,.stay-home .stay-login,.stay-home .stay-primary,.stay-home .stay-search .stay-search-submit{background:#163b73;border-color:#163b73;color:#fff}
+.shared-header .stay-login:hover,.stay-home .stay-login:hover,.stay-home .stay-primary:hover,.stay-home .stay-search .stay-search-submit:hover{background:#102b55;border-color:#102b55}
+.stay-home .stay-secondary,.stay-home .booking-dialog>a{color:#163b73}
+.stay-home .booking-dialog>a{border-color:#163b73}
+.shared-header :is(button,a):focus-visible,.stay-home :is(button,a):focus-visible,.search-field input:focus-visible,.search-field select:focus-visible{outline-color:#163b73}
