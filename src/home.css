@@ -310,3 +310,25 @@
 /* Readable, elegant introductory line. */
 .stay-home .stay-eyebrow{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:400;font-size:clamp(16px,1.5vw,21px);line-height:1.5;letter-spacing:.015em}
 @media(max-width:680px){.stay-home .stay-eyebrow{font-size:17px}}
+
+/* Refined action corners and a more compact mobile hero. */
+.stay-home .stay-primary{border-radius:12px}
+@media(max-width:680px){
+.stay-home .stay-header{height:70px}
+.stay-home .stay-header-actions{gap:12px}
+.stay-home .stay-login{display:block;height:34px;padding:0 17px;font-size:11px;border-radius:10px}
+.stay-home .stay-menu{position:relative;width:40px;height:40px;padding:10px;border:1px solid #dedede;border-radius:12px;background:#fff;gap:6px;align-items:flex-end;transition:background .2s,border-color .2s}
+.stay-home .stay-menu:hover{background:#f3f3f3;border-color:#aaa}
+.stay-home .stay-menu span{height:2px;border-radius:2px;transition:width .25s,transform .25s}
+.stay-home .stay-menu span:first-child{width:20px}
+.stay-home .stay-menu span:last-child{width:13px}
+.stay-home .stay-menu.is-open span:first-child{transform:translateY(4px) rotate(45deg)}
+.stay-home .stay-menu.is-open span:last-child{width:20px;transform:translateY(-4px) rotate(-45deg)}
+.stay-home .stay-nav{top:62px}
+.stay-home .stay-hero{min-height:0;padding:18px 0 28px;gap:24px}
+.stay-home .stay-eyebrow{margin-bottom:10px}
+.stay-home .stay-intro{margin-top:16px}
+.stay-home .stay-ctas{margin-top:20px;margin-bottom:6px}
+.stay-home .stay-gallery{height:clamp(340px,55svh,460px)}
+.stay-home .stay-search{margin-top:-245px;margin-bottom:35px}
+}
