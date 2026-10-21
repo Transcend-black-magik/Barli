@@ -1,8 +1,10 @@
 import React from 'react';
 import SiteHeader from './SiteHeader.jsx';
 import HotelDetails from './HotelDetails.jsx';
+import useHeroTransition from './useHeroTransition.js';
 
 export default function Home() {
+  useHeroTransition();
   const [booking, setBooking] = React.useState(false);
   const [stay, setStay] = React.useState({ location: '', checkIn: '', checkOut: '', adults: '2', rooms: '1' });
   const [summary, setSummary] = React.useState(null);
