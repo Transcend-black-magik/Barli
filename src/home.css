@@ -104,3 +104,30 @@
 @media(prefers-reduced-motion:reduce){
   .hero-enter{animation:none;will-change:auto}
 }
+
+/* Scroll controlled home hero: pin the composition while the next visual arrives. */
+.home-scroll-stage{position:relative;height:200svh;--scroll-progress:0}
+.home-scroll-stage .home-page{position:sticky;top:0;height:100svh;min-height:0}
+.home-scroll-stage .home-photo{border-radius:18px;isolation:isolate}
+.home-scroll-stage .home-photo .lounge-photo{position:absolute;inset:0;transition:none}
+.home-scroll-stage .scroll-photo-first{transform:translateY(calc(var(--scroll-progress) * -110%));clip-path:inset(0 0 0 0)}
+.home-scroll-stage .scroll-photo-second{transform:translateY(calc((1 - var(--scroll-progress)) * 110%))}
+.home-title-window{position:absolute;inset:34svh auto auto 5.7vw;width:min(32vw,49svh);height:min(18vw,28svh);overflow:hidden}
+.home-scroll-stage .home-page .home-title{position:absolute;inset:0 auto auto 0;width:100%;max-width:none;transition:none}
+.home-title-first .home-title-art{transform:translateX(calc(var(--scroll-progress) * -115%));opacity:calc(1 - var(--scroll-progress))}
+.home-title-second{display:block;font-family:Georgia,'Times New Roman',serif;font-weight:400;font-size:clamp(38px,min(6vw,10svh),100px);line-height:.92;letter-spacing:-.065em;color:#202c1d;transform:translateX(calc((var(--scroll-progress) - 1) * 115%));opacity:var(--scroll-progress)}
+@media(max-width:700px){
+  .home-scroll-stage{height:200svh}
+  .home-scroll-stage .home-page{height:auto;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-start;overflow:hidden}
+  .home-scroll-stage .home-left{min-height:100svh;flex:0 0 100svh;position:relative}
+  .home-scroll-stage .home-photo{position:absolute;left:5%;right:auto;top:100svh;bottom:auto;width:90%;height:80svh;margin:0;border-radius:16px}
+  .home-title-window{position:absolute;inset:auto auto auto 6%;top:clamp(280px,48svh,430px);width:86%;height:170px}
+  .home-scroll-stage .home-page .home-title{width:100%;max-width:420px}
+  .home-title-second{font-size:clamp(42px,12vw,64px)}
+}
+@media(prefers-reduced-motion:reduce){
+  .home-scroll-stage{height:auto}
+  .home-scroll-stage .home-page{position:relative}
+  .home-title-first .home-title-art,.home-title-second,.home-scroll-stage .scroll-photo-first,.home-scroll-stage .scroll-photo-second{transform:none;opacity:1;clip-path:none}
+  .home-title-second,.home-scroll-stage .scroll-photo-second{display:none}
+}

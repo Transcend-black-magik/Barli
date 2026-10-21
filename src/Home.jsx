@@ -19,10 +19,12 @@ const slides = [
 
 export default function Home() {
   const [slide, setSlide] = React.useState(0);
+  const [scrollProgress, setScrollProgress] = React.useState(0);
   const [booking, setBooking] = React.useState(false);
   const [menuOpen, setMenuOpen] = React.useState(false);
   const menuButtonRef = React.useRef(null);
   const headerRef = React.useRef(null);
+  const homeStageRef = React.useRef(null);
   const openContact = () => { setMenuOpen(false); setBooking(true); };
   React.useEffect(() => {
     if (!menuOpen) return;
@@ -46,20 +48,43 @@ export default function Home() {
   const dialogRef = React.useRef(null);
   const changeSlide = direction => setSlide(value => (value + direction + slides.length) % slides.length);
   React.useEffect(() => {
+    const stage = homeStageRef.current;
+    if (!stage) return;
+    let frame = 0;
+    const update = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        const distance = Math.max(1, stage.offsetHeight - window.innerHeight);
+        const progress = Math.max(0, Math.min(1, -stage.getBoundingClientRect().top / distance));
+        setScrollProgress(progress);
+        frame = 0;
+      });
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', update);
+      window.removeEventListener('resize', update);
+    };
+  }, []);
+  React.useEffect(() => {
     if (booking) dialogRef.current.showModal();
     else dialogRef.current.close();
   }, [booking]);
 
   return (
-    <main className="home-page">
+    <main className="home-scroll-stage" ref={homeStageRef} style={{ '--scroll-progress': scrollProgress }}>
+      <div className="home-page">
       <div className="home-left">
         <header className="home-masthead" ref={headerRef}>
           <a className="home-logo" href="/" aria-label="Barli Hotel home"><span>Barli</span><small>HOTEL</small></a>
           <div className="home-mobile-actions">
+            <button className="home-mobile-contact" type="button" onClick={openContact}>Contact <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg></button>
             <button className={menuOpen ? 'home-menu-toggle is-open' : 'home-menu-toggle'} ref={menuButtonRef} type="button" aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'} aria-expanded={menuOpen} aria-controls="home-navigation" onClick={() => setMenuOpen(value => !value)}>
               <span /><span /><span />
             </button>
-            <button className="home-mobile-contact" type="button" onClick={openContact}>Contact <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg></button>
           </div>
           <nav id="home-navigation" className={menuOpen ? 'home-nav mobile-open' : 'home-nav'} aria-label="Hotel navigation">
             <a href="/" aria-current="page">Home</a>
@@ -74,12 +99,16 @@ export default function Home() {
           <RatingStars />
           <p>Voted the Top-Rated Luxury<br />Hotel by Our Esteemed Guests.</p>
         </div>
-        <h1 className="home-title hero-enter hero-enter-title" aria-label="Experience Unparalleled Luxury"><img src="/home-headline.svg" alt="" /></h1>
+        <div className="home-title-window" aria-live="polite">
+          <h1 className="home-title home-title-first" aria-label="Experience Unparalleled Luxury"><img className="home-title-art hero-enter hero-enter-title" src="/home-headline.svg" alt="" /></h1>
+          <h2 className="home-title home-title-second" aria-label="A stay beyond the ordinary">A stay beyond<br />the ordinary</h2>
+        </div>
         <button className="home-book hero-enter hero-enter-book" type="button" onClick={() => setBooking(true)}><span>Book Your Stay Now</span><span aria-hidden="true">&#8250;</span></button>
         <div className="home-language" aria-label="Language"><span aria-current="true">En</span><span className="language-divider">/</span><span>Es</span></div>
       </div>
       <figure className="home-photo hero-enter hero-enter-photo">
-        <img key={slide} className={slide === 0 ? 'lounge-photo original-photo' : 'lounge-photo'} src={slides[slide].src} alt={slides[slide].alt} fetchPriority="high" />
+        <img className="lounge-photo original-photo scroll-photo-first" src={slides[slide].src} alt={slides[slide].alt} fetchPriority="high" />
+        <img className="lounge-photo scroll-photo-second" src={slides[(slide + 1) % slides.length].src} alt={slides[(slide + 1) % slides.length].alt} />
         <div className={slide === 0 ? 'home-gallery-controls original-controls' : 'home-gallery-controls'}>
           <button type="button" onClick={() => changeSlide(-1)} aria-label="Previous hotel image"><span aria-hidden="true">&#8593;</span></button>
           <span className="gallery-count" aria-live="polite">{slide + 1}/3</span>
@@ -93,6 +122,7 @@ export default function Home() {
         <p>Room reservations, dining and events are coming soon. Discover the story behind Barli in the meantime.</p>
         <a href="/our-story/">Explore Our Story <span aria-hidden="true">&#8599;</span></a>
       </dialog>
+      </div>
     </main>
   );
 }
