@@ -4,6 +4,7 @@ import React from 'react';
 export default function useHeroTransition() {
   React.useEffect(() => {
     const media = window.matchMedia('(prefers-reduced-motion: no-preference)');
+    const mobile = window.matchMedia('(max-width: 680px)');
     let frame = 0;
     let moving = false;
     let lastGesture = 0;
@@ -19,8 +20,11 @@ export default function useHeroTransition() {
       const header = document.querySelector('.shared-header').offsetHeight;
       const destination = stack.getBoundingClientRect().top + window.scrollY - header;
       const current = window.scrollY;
+      // Leave the entire mobile hero and booking form to native scrolling.
+      if (mobile.matches && current < destination - 6) return;
       const sceneHeight = stack.querySelector('.hotel-stack-scene').offsetHeight;
-      let stops = [0, destination, destination + sceneHeight, destination + sceneHeight * 2];
+      let stops = [destination, destination + sceneHeight, destination + sceneHeight * 2];
+      if (!mobile.matches) stops.unshift(0);
       const restaurant = document.querySelector('.restaurant-section');
       if (restaurant) stops.push(restaurant.getBoundingClientRect().top + current - header);
       const experiences = document.querySelector('.experiences-section');
