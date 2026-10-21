@@ -1,6 +1,7 @@
 import React from 'react';
 import SiteHeader from './SiteHeader.jsx';
 import HotelDetails from './HotelDetails.jsx';
+import Restaurant from './Restaurant.jsx';
 import useHeroTransition from './useHeroTransition.js';
 
 export default function Home() {
@@ -81,6 +82,7 @@ export default function Home() {
         </form>
       </section>
       <HotelDetails onBook={focusBooking} />
+      <Restaurant />
       <dialog className="booking-dialog" ref={dialogRef} onCancel={() => setBooking(false)} onClick={event => { if (event.target === event.currentTarget) setBooking(false); }}>
         <button className="booking-close" type="button" aria-label="Close" onClick={() => setBooking(false)}>&times;</button>
         <span className="booking-eyebrow">BARLI HOTEL</span>

@@ -815,3 +815,74 @@ html,body,#root{background:#fff}
 .stay-home.hero-returning.hero-visible .stay-search{animation:rooms-from-bottom 1.3s cubic-bezier(.16,1,.3,1) .55s both}
 .stay-home.hero-returning:not(.hero-visible) .stay-copy,.stay-home.hero-returning:not(.hero-visible) .stay-gallery,.stay-home.hero-returning:not(.hero-visible) .stay-search{animation:none;opacity:0}
 }
+
+/* White restaurant canvas: a scroll-linked journey between four dishes. */
+.restaurant-section{position:relative;width:calc(100% + var(--stack-gutter)*2);margin-inline:calc(-1*var(--stack-gutter));height:340svh;background:#fff;scroll-margin-top:var(--header-height)}
+.restaurant-scene{position:sticky;top:var(--header-height);height:calc(100svh - var(--header-height));overflow:hidden;background:#fff}
+.restaurant-track{position:relative;width:min(100%,1100px);margin:0 auto;padding:55px 50px 75px;transform:translate3d(0,var(--menu-lift,0px),0);will-change:transform}
+.restaurant-intro{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center;padding:0 6%;margin-bottom:25px}
+.restaurant-intro>div{text-align:center}
+.restaurant-intro>div>span{font-family:'Pinyon Script',Georgia,serif;font-size:36px;color:#8d7554}
+.restaurant-intro h2{font-family:Georgia,serif;font-size:clamp(32px,3.3vw,50px);line-height:1.1;font-weight:400;letter-spacing:-.04em;margin:0}
+.restaurant-intro p{font-family:Georgia,serif;font-size:13px;line-height:1.8;color:#777;max-width:360px;margin:0}
+.course{position:relative;display:grid;grid-template-columns:1fr 1fr;align-items:center;min-height:clamp(320px,56svh,580px);gap:65px;padding:20px 3%}
+.course-plate{position:relative;z-index:2;width:min(100%,390px);aspect-ratio:1;justify-self:center;transform:rotate(var(--plate-angle,0deg));will-change:transform;filter:drop-shadow(0 14px 16px #4b391b16)}
+.course-food{width:100%;height:100%;background-image:url('/restaurant-dishes.png');background-size:200% 200%;background-repeat:no-repeat}
+.course-copy{position:relative;z-index:2;max-width:300px}
+.course-number{font-size:8px;letter-spacing:.15em;color:#999}
+.course-copy h3{font-family:'Pinyon Script',Georgia,serif;font-size:clamp(36px,4vw,58px);font-weight:400;line-height:1.1;margin:13px 0 14px;color:#8d7554}
+.course-copy p{font-family:Georgia,serif;font-size:14px;line-height:1.8;color:#666;margin:0;max-width:270px}
+.course:nth-of-type(even) .course-plate{grid-column:2;grid-row:1}
+.course:nth-of-type(even) .course-copy{grid-column:1;grid-row:1;justify-self:center}
+.course-copy>a{display:inline-flex;align-items:center;gap:25px;margin-top:24px;border-bottom:1px solid #163b73;padding-bottom:8px;font-size:12px;color:#163b73}
+.salt-trail{position:absolute;z-index:1;top:35%;left:0;width:100%;height:160%;overflow:visible;pointer-events:none;clip-path:inset(0 0 calc(100% - var(--salt-reveal,0%)) 0)}
+.salt-grains{fill:#9a9184}
+.restaurant-progress{position:absolute;left:50px;right:50px;bottom:15px;display:flex;justify-content:space-between;gap:20px;font-size:8px;letter-spacing:.14em;color:#999;pointer-events:none}
+@media(prefers-reduced-motion:no-preference){.restaurant-intro{opacity:0;transition:opacity 1s,translate 1.2s cubic-bezier(.16,1,.3,1);translate:0 30px}.restaurant-entered .restaurant-intro{opacity:1;translate:0 0}}
+@media(max-width:680px){
+.restaurant-section{height:300svh}
+.restaurant-track{padding:35px 24px 65px}
+.restaurant-intro{gap:22px;padding:0;margin-bottom:22px}
+.restaurant-intro>div>span{font-size:29px}
+.restaurant-intro h2{font-size:30px}
+.restaurant-intro p{font-size:10px;line-height:1.7}
+.course{min-height:clamp(275px,47svh,390px);gap:16px;padding:10px 0}
+.course-plate{width:115%;max-width:none}
+.course-copy h3{font-size:34px;margin:8px 0 10px}
+.course-copy p{font-size:11px;line-height:1.7}
+.course-number{font-size:6px;letter-spacing:.08em}
+.restaurant-progress{left:24px;right:24px;font-size:6px;bottom:12px}
+.course-copy>a{font-size:10px;gap:10px;margin-top:16px}
+}
+@media(prefers-reduced-motion:reduce){.restaurant-section{height:auto}.restaurant-scene{position:relative;top:auto;height:auto;overflow:visible}.restaurant-track{transform:none;will-change:auto}.course-plate{transform:none;will-change:auto}.salt-trail{clip-path:none}.restaurant-progress{display:none}}
+
+/* Individual salt crystals, with a final scatter around every plate. */
+.restaurant-section .course-plate{width:min(114%,440px);max-width:none}
+.restaurant-section .salt-trail{clip-path:none}
+.salt-grain{opacity:0}
+.salt-halo{position:absolute;z-index:1;left:calc(3% + 1%);top:50%;width:45%;aspect-ratio:1;transform:translateY(-50%);overflow:visible;pointer-events:none}
+.course:nth-of-type(even) .salt-halo{left:auto;right:4%}
+.course-copy{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .8s cubic-bezier(.16,1,.3,1)}
+.course-is-active .course-copy{opacity:1;transform:none}
+@media(max-width:680px){.restaurant-section .course-plate{width:126%}.salt-halo{left:-5%;width:55%}.course:nth-of-type(even) .salt-halo{left:auto;right:-5%}}
+@media(prefers-reduced-motion:reduce){.salt-grain{opacity:1!important}.course-copy{opacity:1;transform:none;transition:none}}
+
+/* Dark restaurant preview. */
+.restaurant-section,.restaurant-scene{background:#171716;color:#f7f4ee}
+.restaurant-intro h2{color:#fff}
+.restaurant-intro>div>span,.course-copy h3{color:#c3aa86}
+.restaurant-intro p,.course-copy p{color:#d1cec7}
+.course-number,.restaurant-progress{color:#aaa69d}
+.course-copy>a{color:#eee3d1;border-color:#bca27e}
+.restaurant-section .salt-grain{fill:#f5f0e5}
+.restaurant-section .course-plate{filter:drop-shadow(0 14px 18px #0005)}
+
+/* Restore the restaurant's white palette. */
+.restaurant-section,.restaurant-scene{background:#fff;color:#111}
+.restaurant-intro h2{color:#111}
+.restaurant-intro>div>span,.course-copy h3{color:#8d7554}
+.restaurant-intro p,.course-copy p{color:#666}
+.course-number,.restaurant-progress{color:#888}
+.course-copy>a{color:#163b73;border-color:#163b73}
+.restaurant-section .salt-grain{fill:revert-layer}
+.restaurant-section .course-plate{filter:drop-shadow(0 14px 16px #4b391b16)}

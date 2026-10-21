@@ -21,8 +21,10 @@ export default function useHeroTransition() {
       const current = window.scrollY;
       const sceneHeight = stack.querySelector('.hotel-stack-scene').offsetHeight;
       const stops = [0, destination, destination + sceneHeight, destination + sceneHeight * 2];
+      const restaurant = document.querySelector('.restaurant-section');
+      if (restaurant) stops.push(restaurant.getBoundingClientRect().top + current - header);
       const target = event.deltaY > 0 ? stops.find(stop => stop > current + 6) : [...stops].reverse().find(stop => stop < current - 6);
-      if (target === undefined || current > stops[3] + 6) return;
+      if (target === undefined || current > stops[stops.length - 1] + 6) return;
       const innerList = event.target.closest('.rooms-cards');
       if (innerList && (event.deltaY > 0 ? innerList.scrollTop + innerList.clientHeight < innerList.scrollHeight - 2 : innerList.scrollTop > 2)) return;
       event.preventDefault();

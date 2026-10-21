@@ -31,6 +31,7 @@ export default function SiteHeader({ onAction = () => {}, activePage = 'home' })
         <a href="/" aria-current={activePage === 'home' ? 'page' : undefined} onClick={() => setMenuOpen(false)}>Home</a>
         <a href="/rooms-and-suites/" aria-current={activePage === 'rooms' ? 'page' : undefined} onClick={() => setMenuOpen(false)}>Rooms &amp; Suites</a>
         <a href="/#amenities" onClick={() => setMenuOpen(false)}>Amenities</a>
+        <a href="/#restaurant" onClick={() => setMenuOpen(false)}>Dining</a>
         <button type="button" onClick={onAction}>Special Offers</button>
         <a href="/our-story/" aria-current={activePage === 'story' ? 'page' : undefined} onClick={() => setMenuOpen(false)}>Our Story</a>
         <button type="button" onClick={onAction}>Contact</button>
