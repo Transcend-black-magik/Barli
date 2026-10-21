@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import './styles.css';
 import './home.css';
 import Home from './Home.jsx';
+import SiteHeader from './SiteHeader.jsx';
 
 function MindMark() {
   return <svg viewBox="0 0 20 24" fill="none" aria-hidden="true"><path d="M10 22C5 18 3 13 4 8C5 2 12 0 15 5C18 10 15 17 10 22Z" stroke="currentColor" strokeWidth="1.25"/><path d="M10 19C7 15 6 11 8 7C10 3 14 6 13 10C12 14 8 15 7 12" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round"/></svg>;
@@ -11,7 +12,6 @@ function MindMark() {
 function OurStory() {
   const stageRef = React.useRef(null);
   const [expanded, setExpanded] = React.useState(false);
-  const [menuOpen, setMenuOpen] = React.useState(false);
 
   React.useEffect(() => {
     const stage = stageRef.current;
@@ -62,22 +62,7 @@ function OurStory() {
     <div className="motion-stage story-page" id="start" ref={stageRef}>
       <div className="scroll-snap-point scroll-snap-start" aria-hidden="true" />
       <div className="scroll-snap-point scroll-snap-end" aria-hidden="true" />
-      <header className="site-header hotel-header">
-        <a className="hotel-brand" href="/" aria-label="Barli Hotel home" onClick={() => setMenuOpen(false)}>
-          <span className="hotel-brand-name">Barli</span>
-          <span className="hotel-brand-caption">HOTEL &amp; RETREAT</span>
-        </a>
-        <nav id="hotel-navigation" className={menuOpen ? 'hotel-nav is-open' : 'hotel-nav'} aria-label="Hotel navigation">
-          <a href="/" onClick={() => setMenuOpen(false)}>Home</a>
-          <a href="#hotel-story" onClick={() => setMenuOpen(false)}>Rooms &amp; Suites</a>
-          <a href="#hotel-story" onClick={() => setMenuOpen(false)}>Experiences</a>
-          <a href="/our-story/" aria-current="page" onClick={() => setMenuOpen(false)}>Our Story</a>
-        </nav>
-        <div className="hotel-actions">
-          <button className="menu-toggle" type="button" aria-controls="hotel-navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(value => !value)}>{menuOpen ? 'Close' : 'Menu'}</button>
-          <a className="book-stay" href="#hotel-story" onClick={() => setMenuOpen(false)}>Book a stay <span aria-hidden="true">&#8599;</span></a>
-        </div>
-      </header>
+      <SiteHeader activePage="story" onAction={() => document.getElementById('hotel-story')?.scrollIntoView({ behavior: 'smooth' })} />
     <main className="mind-hero">
 
       <section className="opening-scene" aria-labelledby="hero-title">

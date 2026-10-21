@@ -10,6 +10,8 @@ Source video: https://cdn.dribbble.com/userupload/46849820/file/0fbeaed0a8e89fc8
 
 These assets retain their original ownership; this project does not include an independent stock-photo license.
 
+`public/hotel-lounge-neutral.webp` is a warm, sunlit lounge image sourced from https://www.stay-experience.com/storage/693274/conversions/what-guests-truly-value-in-ultra-luxury-hotels-a-deep-dive-into-service-amenities-and-experience-og.webp for the current booking-led home hero.
+
 ## Desert hero image
 
 `public/desert-dunes.jpg`: Brian Wangenheim on Unsplash, https://unsplash.com/photos/a-sand-dune-in-the-desert-y1D3MOgFsWE . Downloaded locally for the replacement hero visual.

@@ -1,120 +1,42 @@
 import React from 'react';
-
-function RatingStars() {
-  const star = 'M12 2.2 14.9 8.1 21.4 9 16.7 13.6 17.8 20.1 12 17 6.2 20.1 7.3 13.6 2.6 9 9.1 8.1Z';
-  return <div className="home-stars" role="img" aria-label="Four and a half stars">
-    <svg viewBox="0 0 128 24" aria-hidden="true">
-      <defs><linearGradient id="rating-half"><stop offset="50%" stopColor="#e99a00" /><stop offset="50%" stopColor="#ffffff" /></linearGradient></defs>
-      {[0, 1, 2, 3].map(index => <path key={index} d={star} transform={`translate(${index * 26} 0)`} fill="#e99a00" />)}
-      <path d={star} transform="translate(104 0)" fill="url(#rating-half)" stroke="#e99a00" strokeWidth="1" />
-    </svg>
-  </div>;
-}
-
-const slides = [
-  { src: '/hotel-lounge.jpg', alt: 'Sunlit hotel lounge with green velvet armchairs, marble walls, and hanging pendant lights' },
-  { src: '/hotel-seating.jpg', alt: 'A closer look at the green lounge seating and warm wood details' },
-  { src: '/hotel-lighting.jpg', alt: 'Sculptural pendant lighting against the lounge marble wall' },
-];
+import SiteHeader from './SiteHeader.jsx';
 
 export default function Home() {
-  const [slide, setSlide] = React.useState(0);
-  const [scrollProgress, setScrollProgress] = React.useState(0);
   const [booking, setBooking] = React.useState(false);
-  const [menuOpen, setMenuOpen] = React.useState(false);
-  const menuButtonRef = React.useRef(null);
-  const headerRef = React.useRef(null);
-  const homeStageRef = React.useRef(null);
-  const openContact = () => { setMenuOpen(false); setBooking(true); };
-  React.useEffect(() => {
-    if (!menuOpen) return;
-    const onKeyDown = event => {
-      if (event.key === 'Escape') { setMenuOpen(false); menuButtonRef.current?.focus(); }
-    };
-    const onPointerDown = event => {
-      if (!headerRef.current?.contains(event.target)) setMenuOpen(false);
-    };
-    const media = window.matchMedia('(min-width: 701px)');
-    const closeOnDesktop = () => { if (media.matches) setMenuOpen(false); };
-    document.addEventListener('keydown', onKeyDown);
-    document.addEventListener('pointerdown', onPointerDown);
-    media.addEventListener('change', closeOnDesktop);
-    return () => {
-      document.removeEventListener('keydown', onKeyDown);
-      document.removeEventListener('pointerdown', onPointerDown);
-      media.removeEventListener('change', closeOnDesktop);
-    };
-  }, [menuOpen]);
   const dialogRef = React.useRef(null);
-  const changeSlide = direction => setSlide(value => (value + direction + slides.length) % slides.length);
+  const openBooking = () => setBooking(true);
+
   React.useEffect(() => {
-    const stage = homeStageRef.current;
-    if (!stage) return;
-    let frame = 0;
-    const update = () => {
-      if (frame) return;
-      frame = requestAnimationFrame(() => {
-        const distance = Math.max(1, stage.offsetHeight - window.innerHeight);
-        const progress = Math.max(0, Math.min(1, -stage.getBoundingClientRect().top / distance));
-        setScrollProgress(progress);
-        frame = 0;
-      });
-    };
-    update();
-    window.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener('scroll', update);
-      window.removeEventListener('resize', update);
-    };
-  }, []);
-  React.useEffect(() => {
-    if (booking) dialogRef.current.showModal();
-    else dialogRef.current.close();
+    if (booking) dialogRef.current?.showModal();
+    else dialogRef.current?.close();
   }, [booking]);
 
   return (
-    <main className="home-scroll-stage" ref={homeStageRef} style={{ '--scroll-progress': scrollProgress }}>
-      <div className="home-page">
-      <div className="home-left">
-        <header className="home-masthead" ref={headerRef}>
-          <a className="home-logo" href="/" aria-label="Barli Hotel home"><span>Barli</span><small>HOTEL</small></a>
-          <div className="home-mobile-actions">
-            <button className="home-mobile-contact" type="button" onClick={openContact}>Contact <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg></button>
-            <button className={menuOpen ? 'home-menu-toggle is-open' : 'home-menu-toggle'} ref={menuButtonRef} type="button" aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'} aria-expanded={menuOpen} aria-controls="home-navigation" onClick={() => setMenuOpen(value => !value)}>
-              <span /><span /><span />
-            </button>
+    <main className="stay-home">
+      <SiteHeader onAction={openBooking} reference />
+      <section className="stay-hero" aria-labelledby="stay-title">
+        <div className="stay-copy">
+          <div className="stay-eyebrow">Book Your Perfect Stay Today</div>
+          <h1 id="stay-title"><span className="stay-title-line"><span className="stay-discover">Discover</span> Unparalleled</span><br /><span className="stay-title-line">Comfort &amp; Luxury</span></h1>
+          <p className="stay-intro">Experience world-class hospitality, breathtaking views, and premium amenities. Your dream vacation starts with just one click.</p>
+          <div className="stay-ctas">
+            <button className="stay-primary" type="button" onClick={openBooking}>Book Now</button>
+            <a className="stay-secondary" href="/our-story/"><span aria-hidden="true">&#9654;</span> Watch Video</a>
           </div>
-          <nav id="home-navigation" className={menuOpen ? 'home-nav mobile-open' : 'home-nav'} aria-label="Hotel navigation">
-            <a href="/" aria-current="page">Home</a>
-            <button type="button" onClick={openContact}>Rooms &amp; Suites</button>
-            <button type="button" onClick={openContact}>Dining</button>
-            <button type="button" onClick={openContact}>Events</button>
-            <a href="/our-story/">Our Story</a>
-          </nav>
-          <div className="home-contact"><span>Contact</span><button type="button" onClick={() => setBooking(true)}>Plan your stay &#8599;</button></div>
-        </header>
-        <div className="home-endorsement hero-enter hero-enter-rating">
-          <RatingStars />
-          <p>Voted the Top-Rated Luxury<br />Hotel by Our Esteemed Guests.</p>
         </div>
-        <div className="home-title-window" aria-live="polite">
-          <h1 className="home-title home-title-first" aria-label="Experience Unparalleled Luxury"><img className="home-title-art hero-enter hero-enter-title" src="/home-headline.svg" alt="" /></h1>
-          <h2 className="home-title home-title-second" aria-label="A stay beyond the ordinary">A stay beyond<br />the ordinary</h2>
+        <div className="stay-gallery" aria-label="Explore Barli hotel spaces">
+          <figure className="stay-image stay-image-main"><img src="/hotel-lounge-neutral.webp" alt="A sunlit hotel lounge with cream seating, warm wood, and a leafy indoor palm" fetchPriority="high" /></figure>
+          <figure className="stay-image stay-image-detail"><img src="/hotel-seating.jpg" alt="Green lounge chairs and warm natural finishes in the hotel" /></figure>
+          <figure className="stay-image stay-image-detail"><img src="/hotel-lighting.jpg" alt="Pendant lights and stone details in the hotel interior" /></figure>
         </div>
-        <button className="home-book hero-enter hero-enter-book" type="button" onClick={() => setBooking(true)}><span>Book Your Stay Now</span><span aria-hidden="true">&#8250;</span></button>
-        <div className="home-language" aria-label="Language"><span aria-current="true">En</span><span className="language-divider">/</span><span>Es</span></div>
-      </div>
-      <figure className="home-photo hero-enter hero-enter-photo">
-        <img className="lounge-photo original-photo scroll-photo-first" src={slides[slide].src} alt={slides[slide].alt} fetchPriority="high" />
-        <img className="lounge-photo scroll-photo-second" src={slides[(slide + 1) % slides.length].src} alt={slides[(slide + 1) % slides.length].alt} />
-        <div className={slide === 0 ? 'home-gallery-controls original-controls' : 'home-gallery-controls'}>
-          <button type="button" onClick={() => changeSlide(-1)} aria-label="Previous hotel image"><span aria-hidden="true">&#8593;</span></button>
-          <span className="gallery-count" aria-live="polite">{slide + 1}/3</span>
-          <button type="button" onClick={() => changeSlide(1)} aria-label="Next hotel image"><span aria-hidden="true">&#8595;</span></button>
+        <div className="stay-search" aria-label="Stay search options">
+          <button type="button" onClick={openBooking}><span className="search-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></span><span><small>Location</small><b>Your destination</b></span></button>
+          <button type="button" onClick={openBooking}><span className="search-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 11h18m-12 5h6m-3-3 3 3-3 3"/></svg></span><span><small>Check-In</small><b>Add dates</b></span></button>
+          <button type="button" onClick={openBooking}><span className="search-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 11h18m-6 5H9m3-3-3 3 3 3"/></svg></span><span><small>Check-Out</small><b>Add dates</b></span></button>
+          <button type="button" onClick={openBooking}><span className="search-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="7" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3M16 4a3 3 0 0 1 0 6m3 11v-3a6 6 0 0 0-2-4.5"/></svg></span><span><small>Rooms For</small><b>2 Adults, 1 Room</b></span></button>
+          <button className="stay-search-submit" type="button" onClick={openBooking}>Find Room</button>
         </div>
-      </figure>
+      </section>
       <dialog className="booking-dialog" ref={dialogRef} onCancel={() => setBooking(false)} onClick={event => { if (event.target === event.currentTarget) setBooking(false); }}>
         <button className="booking-close" type="button" aria-label="Close" onClick={() => setBooking(false)}>&times;</button>
         <span className="booking-eyebrow">BARLI HOTEL</span>
@@ -122,7 +44,6 @@ export default function Home() {
         <p>Room reservations, dining and events are coming soon. Discover the story behind Barli in the meantime.</p>
         <a href="/our-story/">Explore Our Story <span aria-hidden="true">&#8599;</span></a>
       </dialog>
-      </div>
     </main>
   );
 }
