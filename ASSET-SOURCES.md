@@ -50,6 +50,6 @@ Experiences section regional illustration:
 - Regional imagery of Bali; not a verified Barli hotel location.
 
 ## Abuja landmarks
-The Experiences & Location hero and the gallery use actual landmark photographs stored locally. Full author, source, and license information is in src/abuja-landmark-credits.json and in the gallery's Photography credits disclosure. Photographs are displayed cropped; their source licenses are preserved. Zuma Rock is labeled near Abuja / Niger State, rather than within central Abuja.
+The Experiences & Location hero and the gallery use actual landmark photographs stored locally. Full author, source, and license information is in src/data/photography/abuja-landmark-credits.json and in the gallery's Photography credits disclosure. Photographs are displayed cropped; their source licenses are preserved. Zuma Rock is labeled near Abuja / Niger State, rather than within central Abuja.
 
 Footer forest photography: public/footer-forest.jpg from https://images.unsplash.com/photo-1441974231531-c6227db76b6e (Unsplash). Rendered in grayscale with mirrored repeats for continuous background motion; illustrative scenery, not the hotel grounds.

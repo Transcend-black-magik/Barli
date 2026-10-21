@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { canUseSectionTransitions, getRoomPairHeight } from './scrollPolicy.js';
+import { canUseSectionTransitions, getRoomPairHeight } from '../scrollPolicy.js';
 
 test('small phone viewports never use forced section transitions', () => {
   for (const height of [520, 640, 700, 780, 844]) {

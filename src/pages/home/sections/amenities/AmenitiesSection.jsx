@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 const amenities = [
   { name: 'Restaurants', category: 'DINING', image: '/amenity-dining.jpg', alt: 'Restaurant dining room with warmly lit tables and chairs' },
   { name: 'Swimming Pool', category: 'UNWIND', image: '/amenity-pool.jpg', alt: 'Outdoor swimming pool surrounded by sun loungers' },

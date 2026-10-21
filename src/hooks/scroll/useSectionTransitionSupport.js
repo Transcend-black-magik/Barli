@@ -1,5 +1,5 @@
 import React from 'react';
-import { canUseSectionTransitions } from './scrollPolicy.js';
+import { canUseSectionTransitions } from '../../utils/scroll/scrollPolicy.js';
 
 export default function useSectionTransitionSupport() {
   const read = () => canUseSectionTransitions({

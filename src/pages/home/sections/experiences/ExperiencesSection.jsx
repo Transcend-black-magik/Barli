@@ -1,5 +1,5 @@
 import React from 'react';
-import landmarkCredits from './abuja-landmark-credits.json';
+import landmarkCredits from '../../../../data/photography/abuja-landmark-credits.json';
 
 const landmarks = [
   { image: '/abuja-mosque.jpg', alt: 'The dome and minarets of the National Mosque in Abuja', caption: 'NATIONAL MOSQUE / ABUJA' },

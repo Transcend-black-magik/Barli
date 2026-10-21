@@ -1,5 +1,5 @@
 import React from 'react';
-import credits from './abuja-landmark-credits.json';
+import credits from '../../../../data/photography/abuja-landmark-credits.json';
 
 const places = [
   { name: 'National Mosque', area: 'CENTRAL ABUJA', image: '/abuja-mosque.jpg', note: 'Golden domes and a distinctive city silhouette.' },

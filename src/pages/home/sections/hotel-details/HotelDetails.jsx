@@ -1,6 +1,6 @@
 import React from 'react';
-import Rooms from './Rooms.jsx';
-import Amenities from './Amenities.jsx';
+import Rooms from '../rooms/RoomsSection.jsx';
+import Amenities from '../amenities/AmenitiesSection.jsx';
 
 const details = [
   ['Check-in - Check-out', 'Check-in from 3:00 pm', 'Check-out until noon'],

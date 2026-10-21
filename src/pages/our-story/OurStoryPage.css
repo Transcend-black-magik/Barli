@@ -1,4 +1,4 @@
-﻿.barli-story-page{--stack-gutter:0px;background:#fff;color:#191919;padding-top:var(--header-height);overflow:clip}
+.barli-story-page{--stack-gutter:0px;background:#fff;color:#191919;padding-top:var(--header-height);overflow:clip}
 html:has(.barli-story-page){scroll-snap-type:none}
 .barli-story-page figure{margin:0}
 .barli-story-page img{display:block;width:100%;height:100%;object-fit:cover}

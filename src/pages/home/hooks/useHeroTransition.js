@@ -1,5 +1,5 @@
 import React from 'react';
-import useSectionTransitionSupport from './useSectionTransitionSupport.js';
+import useSectionTransitionSupport from '../../../hooks/scroll/useSectionTransitionSupport.js';
 
 // One deliberate scroll carries the hero into the next section.
 export default function useHeroTransition() {

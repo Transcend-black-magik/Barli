@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 
 const questions = [
   ['What are the check-in and check-out times?', 'Check-in begins at 3:00 pm, and check-out is by noon. Please contact the hotel to discuss an earlier arrival or later departure.'],
