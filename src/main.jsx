@@ -121,8 +121,21 @@ function App() {
         else window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       };
       if (document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        transitionRef.current = document.startViewTransition(update);
-      } else update();
+        document.documentElement.dataset.routeTransition = 'pending';
+        const transition = document.startViewTransition(update);
+        transitionRef.current = transition;
+        const finish = () => {
+          if (transitionRef.current !== transition) return;
+          delete document.documentElement.dataset.routeTransition;
+          window.dispatchEvent(new Event('barli:page-ready'));
+        };
+        transition.finished.then(finish, finish);
+      } else {
+        transitionRef.current = null;
+        delete document.documentElement.dataset.routeTransition;
+        update();
+        window.dispatchEvent(new Event('barli:page-ready'));
+      }
     };
     navigateRef.current = navigate;
     const onClick = event => {

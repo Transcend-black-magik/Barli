@@ -1165,3 +1165,37 @@ background:#163b73;box-shadow:inset 0 2px 4px #081b3a50,0 2px 0 #091f41,0 5px 10
 .experience-copy small{margin-top:10px}
 }
 @media(prefers-reduced-motion:reduce){.stay-home button,.stay-home :is(.rooms-view-more,.room-card-book,.course-copy>a,.experience-copy a){transition:none}}
+
+/* Room selectors remain flat editorial rows. */
+.stay-home .room-choice,.stay-home .room-choice:hover,.stay-home .room-choice:active{box-shadow:none;border-radius:0;background:transparent;padding-left:0;padding-right:0;margin-bottom:0}
+
+@media(max-width:680px){.rooms-section .rooms-heading>p:last-child{display:none}}
+
+/* Give mobile room photography more of the available section height. */
+@media(max-width:680px) and (prefers-reduced-motion:no-preference){
+.hotel-stack-scene>.rooms-section{padding-top:16px;padding-bottom:16px}
+.hotel-stack-scene .rooms-heading{margin-bottom:12px}
+.hotel-stack-scene .rooms-heading h2{font-size:32px;line-height:1.1;margin-bottom:0}
+.hotel-stack-scene .rooms-toolbar{margin-bottom:10px}
+.hotel-stack-scene .rooms-view>.rooms-layout{gap:12px}
+.hotel-stack-scene .rooms-list .room-choice{padding-top:8px;padding-bottom:8px}
+.hotel-stack-scene .room-preview{flex:1;min-height:0}
+.hotel-stack-scene .room-photos{flex:1;min-height:0}
+.hotel-stack-scene .room-caption{padding:10px 0}
+.hotel-stack-scene .rooms-view-more{margin-top:12px;padding:9px 14px}
+}
+@media(max-width:680px) and (prefers-reduced-motion:reduce){.room-photos{aspect-ratio:4/5}}
+
+/* Subtle elevation instead of the previous deep button base. */
+.stay-home button,.stay-home :is(.rooms-view-more,.room-card-book,.course-copy>a,.experience-copy a){box-shadow:inset 0 1px 0 #ffffff40,0 1px 0 #071d3520,0 3px 7px #0c284514}
+.stay-home button:hover,.stay-home :is(.rooms-view-more,.room-card-book,.course-copy>a,.experience-copy a):hover{box-shadow:inset 0 1px 0 #ffffff45,0 2px 0 #071d3525,0 5px 10px #0c28451c}
+.shared-header .stay-login,.stay-home .stay-primary,.stay-home .stay-search .stay-search-submit,.stay-home .hotel-details-book,.stay-home .room-card-book,.rooms-hero-content>a,.rooms-editorial-end>a{box-shadow:inset 0 1px 0 #ffffff25,0 2px 0 #102b51,0 4px 9px #102e5c20}
+.shared-header .stay-login:hover,.stay-home .stay-primary:hover,.stay-home .stay-search .stay-search-submit:hover,.stay-home .hotel-details-book:hover,.stay-home .room-card-book:hover{box-shadow:inset 0 1px 0 #ffffff30,0 2px 0 #102b51,0 6px 12px #102e5c28}
+.shared-header .stay-login:active,.stay-home .stay-primary:active,.stay-home .stay-search .stay-search-submit:active{box-shadow:inset 0 1px 2px #0002,0 1px 0 #102b51}
+.stay-home .room-choice,.stay-home .room-choice:hover,.stay-home .room-choice:active{box-shadow:none}
+
+/* Plain black footer. */
+.barli-footer.landscape-footer{background:#000;padding-top:50px}
+.landscape-footer-body,.landscape-footer-base{background:#000}
+.landscape-footer-base{border-top:1px solid #242424}
+@media(max-width:680px){.barli-footer.landscape-footer{padding-top:20px}}
