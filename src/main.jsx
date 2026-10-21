@@ -4,6 +4,7 @@ import { flushSync } from 'react-dom';
 import './styles.css';
 import './home.css';
 import Home from './Home.jsx';
+import RoomsPage from './RoomsPage.jsx';
 import SiteHeader from './SiteHeader.jsx';
 
 function MindMark() {
@@ -90,7 +91,7 @@ function OurStory() {
   );
 }
 
-const routeFor = pathname => /^\/our-story(?:\/|$)/.test(pathname) ? 'story' : 'home';
+const routeFor = pathname => /^\/rooms-and-suites(?:\/|$)/.test(pathname) ? 'rooms' : /^\/our-story(?:\/|$)/.test(pathname) ? 'story' : 'home';
 
 function App() {
   const [page, setPage] = React.useState(() => routeFor(window.location.pathname));
@@ -98,7 +99,7 @@ function App() {
   const transitionRef = React.useRef(null);
 
   React.useEffect(() => {
-    document.title = page === 'story' ? 'Our Story | Barli Hotel' : 'Barli Hotel | Experience Unparalleled Luxury';
+    document.title = page === 'rooms' ? 'Rooms & Suites | Barli Hotel' : page === 'story' ? 'Our Story | Barli Hotel' : 'Barli Hotel | Experience Unparalleled Luxury';
   }, [page]);
 
   React.useEffect(() => {
@@ -106,12 +107,12 @@ function App() {
       const next = routeFor(url.pathname);
       if (next === pageRef.current) return;
       transitionRef.current?.skipTransition();
-      document.documentElement.dataset.navigation = next === 'story' ? 'forward' : 'back';
+      document.documentElement.dataset.navigation = ['home', 'rooms', 'story'].indexOf(next) > ['home', 'rooms', 'story'].indexOf(pageRef.current) ? 'forward' : 'back';
       const update = () => {
         if (push) window.history.pushState(null, '', url.pathname + url.search + url.hash);
         pageRef.current = next;
         flushSync(() => setPage(next));
-        if (url.hash === '#rooms') document.getElementById('rooms')?.scrollIntoView({ behavior: 'instant' });
+        if (url.hash) document.getElementById(decodeURIComponent(url.hash.slice(1)))?.scrollIntoView({ behavior: 'instant', block: 'center' });
         else window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       };
       if (document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -123,7 +124,7 @@ function App() {
       const anchor = event.target.closest('a[href]');
       if (!anchor || anchor.hasAttribute('download') || (anchor.target && anchor.target !== '_self')) return;
       const url = new URL(anchor.href);
-      if (url.origin !== window.location.origin || !/^\/(?:our-story\/?)?$/.test(url.pathname)) return;
+      if (url.origin !== window.location.origin || !/^\/(?:(?:our-story|rooms-and-suites)\/?)?$/.test(url.pathname)) return;
       if (routeFor(url.pathname) === pageRef.current) return;
       event.preventDefault();
       navigate(url, true);
@@ -137,7 +138,7 @@ function App() {
     };
   }, []);
 
-  return page === 'story' ? <OurStory /> : <Home />;
+  return page === 'story' ? <OurStory /> : page === 'rooms' ? <RoomsPage /> : <Home />;
 }
 
 createRoot(document.getElementById('root')).render(<App />);

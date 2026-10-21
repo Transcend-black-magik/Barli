@@ -23,6 +23,7 @@ function DetailIcon({ index }) {
 }
 
 export default function HotelDetails({ onBook }) {
+  const [roomsRevealed, setRoomsRevealed] = React.useState(false);
   const stackRef = React.useRef(null);
   const [entered, setEntered] = React.useState(false);
   React.useEffect(() => {
@@ -41,6 +42,7 @@ export default function HotelDetails({ onBook }) {
       const scene = stack.querySelector('.hotel-stack-scene');
       const travel = stack.offsetHeight - scene.offsetHeight;
       const progress = media.matches && travel > 0 ? Math.max(0, Math.min(1, (scene.getBoundingClientRect().top - stack.getBoundingClientRect().top) / travel)) : 0;
+      setRoomsRevealed(!media.matches || progress > .35);
       stack.style.setProperty('--details-lift', `${progress * -105}%`);
       const hidden = media.matches && progress > .98;
       stack.querySelector('.hotel-details').inert = hidden;
@@ -68,7 +70,7 @@ export default function HotelDetails({ onBook }) {
             </div>)}
           </dl>
         </section>
-        <Rooms />
+        <Rooms revealed={roomsRevealed} />
       </div>
     </div>
   );

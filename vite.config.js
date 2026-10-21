@@ -6,6 +6,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         home: fileURLToPath(new URL('./index.html', import.meta.url)),
+        rooms: fileURLToPath(new URL('./rooms-and-suites/index.html', import.meta.url)),
         story: fileURLToPath(new URL('./our-story/index.html', import.meta.url)),
       },
     },
