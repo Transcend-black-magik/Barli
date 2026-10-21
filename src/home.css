@@ -332,3 +332,47 @@
 .stay-home .stay-gallery{height:clamp(340px,55svh,460px)}
 .stay-home .stay-search{margin-top:-245px;margin-bottom:35px}
 }
+
+/* Elegant, readable serif navigation and actions. */
+.stay-home .stay-nav a,.stay-home .stay-nav button{font-family:Georgia,'Times New Roman',serif;font-size:15px;font-weight:400;letter-spacing:.015em;line-height:1.4}
+.stay-home .stay-login,.stay-home .stay-primary{font-family:Georgia,'Times New Roman',serif;font-size:16px;font-weight:400;letter-spacing:.025em}
+.stay-home .stay-secondary{font-family:Georgia,'Times New Roman',serif;font-size:16px;letter-spacing:.015em}
+.stay-home .contact-icon{display:block;width:21px;height:21px;flex-shrink:0}
+@media(min-width:681px) and (max-width:1050px){.stay-home .stay-nav{gap:12px}.stay-home .stay-nav a,.stay-home .stay-nav button{font-size:13px}}
+@media(max-width:680px){
+.stay-home .stay-nav{padding:14px 22px}
+.stay-home .stay-nav a,.stay-home .stay-nav button{font-size:20px;line-height:1.5;padding:14px 0}
+.stay-home .stay-login{font-size:14px}
+.stay-home .stay-primary,.stay-home .stay-secondary{font-size:16px}
+}
+
+/* One fixed header system shared by every route. */
+:root{--header-height:80px;--header-gutter:50px}
+.stay-home{padding-top:var(--header-height)}
+.stay-header.shared-header{position:fixed;z-index:100;top:0;left:0;right:0;width:100%;max-width:none;height:var(--header-height);margin:0;padding:0 max(var(--header-gutter),calc((100vw - 1600px)/2));display:grid;grid-template-columns:1fr auto auto;gap:44px;background:#fff;border-bottom:1px solid #eee;color:#111;backdrop-filter:none}
+.shared-header .stay-brand{color:#111}
+.shared-header .stay-brand span{font-family:Georgia,'Times New Roman',serif;font-size:32px;font-style:italic;font-weight:700;letter-spacing:-.09em;transform:skewX(-3deg)}
+.shared-header .stay-nav{display:flex;gap:25px}
+.shared-header .stay-nav a,.shared-header .stay-nav button{font-family:Georgia,'Times New Roman',serif;font-size:15px;font-weight:400;letter-spacing:.015em;line-height:1.4;color:#333}
+.shared-header .stay-nav [aria-current='page']{color:#000;text-decoration:underline;text-underline-offset:6px}
+.shared-header .stay-login{display:block;height:32px;padding:0 24px;background:#111;color:#fff;border-radius:20px;font-family:Georgia,'Times New Roman',serif;font-size:16px;letter-spacing:.025em}
+.shared-header .stay-menu{display:none}
+.shared-header :is(button,a):focus-visible{outline-color:#111}
+.story-page .mind-hero{scroll-margin-top:var(--header-height)}
+@media(min-width:681px) and (max-width:1050px){:root{--header-gutter:35px}.stay-header.shared-header{gap:20px}.shared-header .stay-nav{gap:12px}.shared-header .stay-nav a,.shared-header .stay-nav button{font-size:13px}}
+@media(min-width:681px) and (max-height:700px){:root{--header-height:68px}}
+@media(max-width:680px){
+:root{--header-height:70px;--header-gutter:24px}
+.stay-header.shared-header{grid-template-columns:1fr auto;gap:12px}
+.shared-header .stay-header-actions{gap:12px}
+.shared-header .stay-login{height:34px;padding:0 17px;border-radius:10px;font-size:14px}
+.shared-header .stay-nav{display:none;top:62px;left:0;right:0;gap:0;padding:14px 22px;max-height:calc(100svh - 80px);overflow-y:auto}
+.shared-header .stay-nav.is-open{display:flex;flex-direction:column}
+.shared-header .stay-nav a,.shared-header .stay-nav button{font-size:20px;line-height:1.5;padding:14px 0}
+.shared-header .stay-menu{display:flex;position:relative;width:40px;height:40px;padding:10px;border:1px solid #dedede;border-radius:12px;background:#fff;gap:6px;align-items:flex-end}
+.shared-header .stay-menu span{height:2px;border-radius:2px;transition:width .25s,transform .25s}
+.shared-header .stay-menu span:first-child{width:20px}
+.shared-header .stay-menu span:last-child{width:13px}
+.shared-header .stay-menu.is-open span:first-child{transform:translateY(4px) rotate(45deg)}
+.shared-header .stay-menu.is-open span:last-child{width:20px;transform:translateY(-4px) rotate(-45deg)}
+}

@@ -13,7 +13,7 @@ export default function Home() {
 
   return (
     <main className="stay-home">
-      <SiteHeader onAction={openBooking} reference />
+      <SiteHeader onAction={openBooking} />
       <section className="stay-hero" aria-labelledby="stay-title">
         <div className="stay-copy">
           <div className="stay-eyebrow">Book Your Perfect Stay Today</div>
@@ -21,7 +21,7 @@ export default function Home() {
           <p className="stay-intro">Experience world-class hospitality, breathtaking views, and premium amenities. Your dream vacation starts with just one click.</p>
           <div className="stay-ctas">
             <button className="stay-primary" type="button" onClick={openBooking}>Book Now</button>
-            <a className="stay-secondary" href="/our-story/"><span aria-hidden="true">&#9654;</span> Watch Video</a>
+            <button className="stay-secondary" type="button" onClick={openBooking}><svg className="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m3 7 9 6 9-6"/></svg> Contact Us</button>
           </div>
         </div>
         <div className="stay-gallery" aria-label="Explore Barli hotel spaces">
