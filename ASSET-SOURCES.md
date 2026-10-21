@@ -43,3 +43,11 @@ These are representative photos, not verified photographs of Barli facilities.
 - Generated with the built-in image_gen tool; transparent PNG atlas, not photographs of Barli's actual menu.
 - Final prompt:
 Use case: product-mockup. Asset type: one restaurant website sprite atlas, transparent PNG. Create ONE square atlas with a precise 2-by-2 arrangement of four separate perfectly circular white ceramic plates viewed directly overhead, all same size centered exactly at x25% y25%, x75% y25%, x25% y75%, x75% y75%. Each plate fits within its quadrant with 10% clear transparent margin. Top left: fresh green salad with shaved parmesan and bread. Top right: sliced medium grilled steak with cherry tomatoes, roasted onions and herb garnish. Bottom left: grilled salmon fillet with colorful green salad and lemon slices. Bottom right: small elegant caramel pastry tart with chocolate drizzle. Premium photorealistic food photography, soft natural lighting, subtle realistic shadow beneath each plate. All outside the four plates is genuinely transparent. No lettering, no utensils, no backdrop, no borders. Keep every plate entirely inside its own quadrant, never touching another plate.
+
+
+Experiences section regional illustration:
+- public/experience-bali.jpg: https://images.unsplash.com/photo-1537996194471-e657df975ab4
+- Regional imagery of Bali; not a verified Barli hotel location.
+
+## Abuja landmarks
+The Experiences & Location hero and the gallery use actual landmark photographs stored locally. Full author, source, and license information is in src/abuja-landmark-credits.json and in the gallery's Photography credits disclosure. Photographs are displayed cropped; their source licenses are preserved. Zuma Rock is labeled near Abuja / Niger State, rather than within central Abuja.
