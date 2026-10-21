@@ -5,6 +5,7 @@ import './styles.css';
 import './home.css';
 import Home from './Home.jsx';
 import RoomsPage from './RoomsPage.jsx';
+import ErrorBoundary, { ErrorPage } from './ErrorPage.jsx';
 import SiteHeader from './SiteHeader.jsx';
 
 function MindMark() {
@@ -91,7 +92,7 @@ function OurStory() {
   );
 }
 
-const routeFor = pathname => /^\/rooms-and-suites(?:\/|$)/.test(pathname) ? 'rooms' : /^\/our-story(?:\/|$)/.test(pathname) ? 'story' : 'home';
+const routeFor = pathname => /^\/rooms-and-suites\/?$/.test(pathname) ? 'rooms' : /^\/our-story\/?$/.test(pathname) ? 'story' : pathname === '/' ? 'home' : '404';
 
 function App() {
   const [page, setPage] = React.useState(() => routeFor(window.location.pathname));
@@ -99,7 +100,7 @@ function App() {
   const transitionRef = React.useRef(null);
 
   React.useEffect(() => {
-    document.title = page === 'rooms' ? 'Rooms & Suites | Barli Hotel' : page === 'story' ? 'Our Story | Barli Hotel' : 'Barli Hotel | Experience Unparalleled Luxury';
+    document.title = page === '404' ? 'Page Not Found | Barli Hotel' : page === 'rooms' ? 'Rooms & Suites | Barli Hotel' : page === 'story' ? 'Our Story | Barli Hotel' : 'Barli Hotel | Experience Unparalleled Luxury';
   }, [page]);
 
   React.useEffect(() => {
@@ -138,7 +139,7 @@ function App() {
     };
   }, []);
 
-  return page === 'story' ? <OurStory /> : page === 'rooms' ? <RoomsPage /> : <Home />;
+  return page === 'story' ? <OurStory /> : page === 'rooms' ? <RoomsPage /> : page === 'home' ? <Home /> : <ErrorPage />;
 }
 
-createRoot(document.getElementById('root')).render(<App />);
+createRoot(document.getElementById('root')).render(<ErrorBoundary><App /></ErrorBoundary>);

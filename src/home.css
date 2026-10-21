@@ -662,3 +662,113 @@ html[data-navigation='back']::view-transition-new(root){animation-name:page-ente
 .rooms-entered .room-preview{animation:rooms-from-right 1.4s cubic-bezier(.16,1,.3,1) .3s both}
 .rooms-entered .rooms-view-more{animation:rooms-from-bottom 1.1s cubic-bezier(.16,1,.3,1) .7s both}
 }
+
+/* Editorial amenities gallery, revealed beneath the rooms panel. */
+.amenities-section{background:#fff;max-width:1600px;width:100%;margin:auto;min-height:calc(100svh - var(--header-height));padding:36px 0;display:flex;flex-direction:column;color:#111;border-top:1px solid #eee}
+.amenities-top{display:flex;justify-content:space-between;gap:20px;font-size:9px;letter-spacing:.12em;color:#777;margin-bottom:28px}
+.amenities-title-row{display:flex;align-items:flex-end;justify-content:space-between;gap:25px;margin-bottom:22px}
+.amenities-title-row h2{font-family:Georgia,'Times New Roman',serif;font-size:clamp(55px,8vw,140px);font-weight:400;letter-spacing:-.075em;line-height:1;margin:0}
+.amenities-title-row>span{font-size:11px;line-height:1.6;color:#777;margin-bottom:7px}
+.amenities-rule{display:flex;justify-content:space-between;border-top:1px solid #ddd;padding:14px 0;font-size:10px;color:#666}
+.amenities-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;flex:1;min-height:0}
+.amenity-card{display:flex;flex-direction:column;min-width:0;min-height:0}
+.amenity-image{position:relative;flex:1;min-height:0;overflow:hidden;background:#eee}
+.amenity-image img{display:block;width:100%;height:100%;object-fit:cover;transition:transform 1s}
+.amenity-card:hover img{transform:scale(1.035)}
+.amenity-image>span{position:absolute;bottom:16px;left:16px;padding:7px 10px;border-radius:20px;background:#fff;font-size:10px}
+.amenity-caption{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:17px 0}
+.amenity-caption h3{font-family:Georgia,serif;font-size:18px;font-weight:400;margin:0}
+.amenity-caption>span{font-size:8px;letter-spacing:.1em;color:#888}
+.amenities-scroll-target{position:absolute;bottom:0;left:0;height:calc(100svh - var(--header-height));width:1px;pointer-events:none;scroll-margin-top:var(--header-height)}
+@media(prefers-reduced-motion:no-preference){
+.hotel-stack{height:calc((100svh - var(--header-height))*3)}
+.hotel-stack .rooms-scroll-target{top:calc(100svh - var(--header-height));bottom:auto}
+.hotel-stack-scene>.amenities-section{position:absolute;inset:0;z-index:1;height:100%;min-height:0}
+.hotel-stack-scene>.rooms-section{z-index:2;transform:translateY(var(--rooms-lift,0%));will-change:transform;box-shadow:0 15px 35px #0000000d}
+.hotel-stack-scene>.hotel-details{z-index:3}
+.amenities-section:not(.amenities-entered) .amenities-title-row,.amenities-section:not(.amenities-entered) .amenity-card{opacity:0}
+.amenities-entered .amenities-title-row{animation:rooms-from-left 1.4s cubic-bezier(.16,1,.3,1) both}
+.amenities-entered .amenity-card{animation:rooms-from-bottom 1.4s cubic-bezier(.16,1,.3,1) var(--amenity-delay) both}
+}
+.error-page{min-height:100svh;background:#fff;padding:calc(var(--header-height) + 60px) 24px 60px;color:#111}
+.error-page main{max-width:760px;margin:auto;text-align:center}
+.error-code{display:block;font-family:'Italiana',Georgia,serif;font-size:clamp(120px,20vw,240px);line-height:1;color:#14705b;letter-spacing:-.06em}
+.error-page h1{font-family:'Italiana',Georgia,serif;font-size:clamp(32px,4vw,52px);font-weight:400;letter-spacing:-.03em}
+.error-page main>p:not(.rooms-eyebrow){color:#777;line-height:1.7;font-size:15px}
+.error-page main>div{display:flex;justify-content:center;gap:15px;flex-wrap:wrap;margin-top:30px}
+.error-page main a,.error-page main button{display:inline-flex;align-items:center;gap:30px;padding:14px 22px;border:1px solid #163b73;border-radius:10px;background:#163b73;color:#fff;font-size:14px}
+.error-page main .error-secondary,.error-page main button{background:#fff;color:#163b73}
+@media(max-width:680px){
+.amenities-section{padding:24px 0}
+.amenities-top{font-size:8px;margin-bottom:25px}
+.amenities-title-row{margin-bottom:18px;gap:12px;align-items:flex-start;flex-direction:column}
+.amenities-title-row h2{font-size:clamp(42px,12vw,70px)}
+.amenities-title-row>span{font-size:10px}
+.amenities-gallery{gap:8px}
+.amenity-caption{align-items:flex-start;flex-direction:column;gap:7px;padding:12px 0}
+.amenity-caption h3{font-size:clamp(13px,3.5vw,17px);line-height:1.3}
+.amenity-caption>span{font-size:7px;letter-spacing:.04em}
+.amenity-image>span{left:8px;bottom:10px;padding:5px 7px;font-size:8px}
+}
+@media(prefers-reduced-motion:reduce){
+.hotel-stack-scene>.amenities-section{order:3}
+.amenities-gallery{min-height:380px}
+.amenities-section{height:auto}
+.amenity-card:hover img{transform:none}
+}
+
+/* Seamless white canvas through every stacked section. */
+html,body,#root{background:#fff}
+.hotel-stack,.hotel-stack-scene{background:#fff}
+.hotel-stack-scene>.hotel-details,.hotel-stack-scene>.rooms-section,.hotel-stack-scene>.amenities-section{background:#fff;box-shadow:none;border-top:0}
+
+/* Full-width stack panels: the moving white surface covers every edge. */
+.stay-home{--stack-gutter:50px}
+.hotel-stack{width:calc(100% + var(--stack-gutter)*2);margin-inline:calc(-1*var(--stack-gutter))}
+.hotel-stack-scene{width:100%}
+.hotel-stack-scene>.hotel-details,.hotel-stack-scene>.rooms-section,.hotel-stack-scene>.amenities-section{width:100%;max-width:none;margin:0;padding-left:max(var(--stack-gutter),calc((100% - 1600px)/2));padding-right:max(var(--stack-gutter),calc((100% - 1600px)/2));background:#fff}
+@media(min-width:681px) and (max-width:1050px){.stay-home{--stack-gutter:35px}}
+@media(max-width:680px){.stay-home{--stack-gutter:24px}}
+
+/* Reference composition: generous empty space, oversized type, close-set photos. */
+.hotel-stack-scene>.amenities-section{padding-top:clamp(90px,18svh,220px);padding-bottom:24px}
+.amenities-title-row{flex-shrink:0;display:flex;flex-direction:row;align-items:baseline;justify-content:space-between;margin-bottom:12px;gap:24px}
+.amenities-title-row h2{font-family:Georgia,'Times New Roman',serif;font-size:clamp(70px,9.8vw,170px);line-height:.95;font-weight:400;letter-spacing:-.075em}
+.amenities-title-row .amenities-gallery-label{font-size:11px;line-height:1;color:#222;margin:0 13% 0 0}
+.amenities-rule{flex-shrink:0;padding:13px 0 10px;border-color:#e9e9e9;font-size:11px;color:#222}
+.amenities-gallery{gap:14px}
+.amenity-image{border-radius:0}
+.amenity-caption{padding:12px 0}
+@media(max-width:680px){
+.hotel-stack-scene>.amenities-section{padding-top:clamp(75px,15svh,130px);padding-bottom:20px}
+.amenities-title-row{flex-direction:row;align-items:baseline;gap:12px;margin-bottom:14px}
+.amenities-title-row h2{font-size:clamp(38px,11vw,70px)}
+.amenities-title-row .amenities-gallery-label{font-size:9px;margin:0}
+.amenities-rule{font-size:10px;padding:11px 0}
+.amenities-gallery{gap:7px}
+}
+
+/* Anchor amenities photography flush to the panel's bottom edge. */
+.hotel-stack-scene>.amenities-section{padding-bottom:0}
+.amenities-gallery{align-items:stretch}
+.amenity-card{position:relative}
+.amenity-image{flex:1;height:100%}
+.amenity-caption{position:absolute;left:0;right:0;bottom:0;z-index:1;padding:44px 18px 20px;background:linear-gradient(transparent,rgba(0,0,0,.62));color:#fff;pointer-events:none}
+.amenity-caption>span{color:#fff}
+@media(max-width:680px){.hotel-stack-scene>.amenities-section{padding-bottom:0}.amenity-caption{padding:34px 9px 14px;gap:6px}.amenity-caption h3{font-size:13px}.amenity-caption>span{font-size:7px}}
+
+/* Continuous amenities gallery, inset from the bottom of the panel. */
+.hotel-stack-scene>.amenities-section{padding-bottom:28px}
+.amenities-motion-control{display:flex;align-items:center;gap:8px;flex-shrink:0;border:1px solid #ddd;border-radius:20px;background:#fff;color:#163b73;padding:9px 13px;font-size:10px}
+.amenities-gallery.amenities-marquee{display:block;position:relative;overflow:hidden;min-height:0;flex:1;outline-offset:4px}
+.amenities-track{display:flex;gap:16px;width:max-content;height:100%;animation:amenities-marquee 65s linear infinite;will-change:transform}
+.amenities-track>.amenity-card{flex:0 0 clamp(260px,30vw,520px);width:clamp(260px,30vw,520px);height:100%}
+@keyframes amenities-marquee{from{transform:translateX(0)}to{transform:translateX(calc(-50% - 8px))}}
+.amenities-marquee:hover .amenities-track,.amenities-marquee:focus-within .amenities-track,.amenities-marquee.is-paused .amenities-track{animation-play-state:paused}
+.amenities-section:not(.amenities-entered) .amenities-track{animation-play-state:paused}
+@media(max-width:680px){.hotel-stack-scene>.amenities-section{padding-bottom:20px}.amenities-track>.amenity-card{flex-basis:72vw;width:72vw}.amenities-motion-control{font-size:9px;padding:8px 10px;gap:5px}.amenities-track{animation-duration:55s}}
+@media(prefers-reduced-motion:reduce){.amenities-track{animation:none;will-change:auto}.amenities-marquee .amenity-duplicate{display:none}.amenities-gallery.amenities-marquee{overflow-x:auto;min-height:380px}.amenities-motion-control{display:none}.amenities-track>.amenity-card{min-height:380px}}
+
+/* Let the moving photography span the screen, independently of the heading. */
+.hotel-stack-scene>.amenities-section{--amenities-inset:max(var(--stack-gutter),calc((100vw - 1600px)/2))}
+.amenities-section .amenities-gallery.amenities-marquee{flex-shrink:0;align-self:stretch;width:calc(100% + var(--amenities-inset)*2);margin-left:calc(-1*var(--amenities-inset));margin-right:calc(-1*var(--amenities-inset))}

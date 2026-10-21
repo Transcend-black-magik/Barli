@@ -1,5 +1,6 @@
 import React from 'react';
 import Rooms from './Rooms.jsx';
+import Amenities from './Amenities.jsx';
 
 const details = [
   ['Check-in - Check-out', 'Check-in from 3:00 pm', 'Check-out until noon'],
@@ -23,6 +24,7 @@ function DetailIcon({ index }) {
 }
 
 export default function HotelDetails({ onBook }) {
+  const [amenitiesRevealed, setAmenitiesRevealed] = React.useState(false);
   const [roomsRevealed, setRoomsRevealed] = React.useState(false);
   const stackRef = React.useRef(null);
   const [entered, setEntered] = React.useState(false);
@@ -36,19 +38,32 @@ export default function HotelDetails({ onBook }) {
   React.useEffect(() => {
     const stack = stackRef.current;
     const media = window.matchMedia('(prefers-reduced-motion: no-preference)');
-    let frame;
-    const render = () => {
-      frame = null;
+    let frame = 0;
+    let target = 0;
+    let current = 0;
+    let lastTime = 0;
+    const render = time => {
+      const elapsed = lastTime ? Math.min(time - lastTime, 64) : 16;
+      lastTime = time;
+      // Follow wheel and touch movement with a consistent, gentle catch-up.
+      current += (target - current) * (1 - Math.exp(-elapsed / 165));
+      if (!media.matches || Math.abs(target - current) < .0002) current = target;
+      const phase = current * 2;
+      setRoomsRevealed(!media.matches || phase > .35);
+      setAmenitiesRevealed(!media.matches || phase > 1.35);
+      stack.style.setProperty('--rooms-lift', `${Math.max(0, phase - 1) * -105}%`);
+      stack.style.setProperty('--details-lift', `${Math.min(1, phase) * -105}%`);
+      stack.querySelector('.hotel-details').inert = media.matches && phase > .98;
+      if (current !== target) frame = requestAnimationFrame(render);
+      else { frame = 0; lastTime = 0; }
+    };
+    const schedule = () => {
       const scene = stack.querySelector('.hotel-stack-scene');
       const travel = stack.offsetHeight - scene.offsetHeight;
-      const progress = media.matches && travel > 0 ? Math.max(0, Math.min(1, (scene.getBoundingClientRect().top - stack.getBoundingClientRect().top) / travel)) : 0;
-      setRoomsRevealed(!media.matches || progress > .35);
-      stack.style.setProperty('--details-lift', `${progress * -105}%`);
-      const hidden = media.matches && progress > .98;
-      stack.querySelector('.hotel-details').inert = hidden;
+      target = media.matches && travel > 0 ? Math.max(0, Math.min(1, (scene.getBoundingClientRect().top - stack.getBoundingClientRect().top) / travel)) : 0;
+      if (!frame) frame = requestAnimationFrame(render);
     };
-    const schedule = () => { if (!frame) frame = requestAnimationFrame(render); };
-    render();
+    schedule();
     window.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', schedule);
     media.addEventListener('change', schedule);
@@ -56,6 +71,7 @@ export default function HotelDetails({ onBook }) {
   }, []);
   return (
     <div className="hotel-stack" ref={stackRef}>
+      <span id="amenities" className="amenities-scroll-target" aria-hidden="true" />
       <span id="rooms" className="rooms-scroll-target" aria-hidden="true" />
       <div className="hotel-stack-scene">
         <section className={`hotel-details${entered ? " has-entered" : ""}`} aria-labelledby="hotel-details-title">
@@ -71,6 +87,7 @@ export default function HotelDetails({ onBook }) {
           </dl>
         </section>
         <Rooms revealed={roomsRevealed} />
+        <Amenities revealed={amenitiesRevealed} />
       </div>
     </div>
   );

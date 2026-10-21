@@ -27,3 +27,12 @@ Room section illustrative photography (Unsplash, downloaded locally):
 - room-suite.jpg: https://images.unsplash.com/photo-1590490360182-c33d57733427
 - room-penthouse.jpg: https://images.unsplash.com/photo-1582719478250-c89cae4dc85b
 Room names and imagery are illustrative pending actual property details.
+
+Amenities gallery illustrative photography (Unsplash; stored locally):
+- amenity-dining.jpg: https://images.unsplash.com/photo-1517248135467-4c7edcad34c4
+- amenity-pool.jpg: https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7
+- amenity-spa.jpg: https://images.unsplash.com/photo-1540555700478-4be289fbecef
+- amenity-gym.jpg: https://images.unsplash.com/photo-1534438327276-14e5300c3a48
+- amenity-bar.jpg: https://images.unsplash.com/photo-1514933651103-005eec06c04b
+- amenity-lounge.jpg: https://images.unsplash.com/photo-1566073771259-6a8506099945
+These are representative photos, not verified photographs of Barli facilities.
