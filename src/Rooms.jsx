@@ -10,7 +10,7 @@ const rooms = [
 export default function Rooms() {
   const [active, setActive] = React.useState(0);
   return (
-    <section className="rooms-section" id="rooms" aria-labelledby="rooms-heading">
+    <section className="rooms-section" id="room-collection" aria-labelledby="rooms-heading">
       <div className="rooms-heading">
         <p className="rooms-eyebrow">THE BARLI COLLECTION</p>
         <h2 id="rooms-heading">Somewhere <em>just for you.</em></h2>
