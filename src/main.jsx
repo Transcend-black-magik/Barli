@@ -1,5 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import { flushSync } from 'react-dom';
 import './styles.css';
 import './home.css';
 import Home from './Home.jsx';
@@ -89,6 +90,53 @@ function OurStory() {
   );
 }
 
-const isStoryPage = /^\/our-story(?:\/|$)/.test(window.location.pathname);
-document.title = isStoryPage ? 'Our Story | Barli Hotel' : 'Barli Hotel | Experience Unparalleled Luxury';
-createRoot(document.getElementById('root')).render(isStoryPage ? <OurStory /> : <Home />);
+const routeFor = pathname => /^\/our-story(?:\/|$)/.test(pathname) ? 'story' : 'home';
+
+function App() {
+  const [page, setPage] = React.useState(() => routeFor(window.location.pathname));
+  const pageRef = React.useRef(page);
+  const transitionRef = React.useRef(null);
+
+  React.useEffect(() => {
+    document.title = page === 'story' ? 'Our Story | Barli Hotel' : 'Barli Hotel | Experience Unparalleled Luxury';
+  }, [page]);
+
+  React.useEffect(() => {
+    const navigate = (url, push) => {
+      const next = routeFor(url.pathname);
+      if (next === pageRef.current) return;
+      transitionRef.current?.skipTransition();
+      document.documentElement.dataset.navigation = next === 'story' ? 'forward' : 'back';
+      const update = () => {
+        if (push) window.history.pushState(null, '', url.pathname + url.search + url.hash);
+        pageRef.current = next;
+        flushSync(() => setPage(next));
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      };
+      if (document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        transitionRef.current = document.startViewTransition(update);
+      } else update();
+    };
+    const onClick = event => {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const anchor = event.target.closest('a[href]');
+      if (!anchor || anchor.hasAttribute('download') || (anchor.target && anchor.target !== '_self')) return;
+      const url = new URL(anchor.href);
+      if (url.origin !== window.location.origin || !/^\/(?:our-story\/?)?$/.test(url.pathname)) return;
+      if (routeFor(url.pathname) === pageRef.current) return;
+      event.preventDefault();
+      navigate(url, true);
+    };
+    const onPopState = () => navigate(new URL(window.location.href), false);
+    document.addEventListener('click', onClick);
+    window.addEventListener('popstate', onPopState);
+    return () => {
+      document.removeEventListener('click', onClick);
+      window.removeEventListener('popstate', onPopState);
+    };
+  }, []);
+
+  return page === 'story' ? <OurStory /> : <Home />;
+}
+
+createRoot(document.getElementById('root')).render(<App />);

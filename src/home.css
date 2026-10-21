@@ -376,3 +376,21 @@
 .shared-header .stay-menu.is-open span:first-child{transform:translateY(4px) rotate(45deg)}
 .shared-header .stay-menu.is-open span:last-child{width:20px;transform:translateY(-4px) rotate(-45deg)}
 }
+
+@media(min-width:681px){.shared-header .stay-login{border-radius:9px;font-size:13px;height:32px;padding:0 20px}}
+/* Keep the header anchored while the two page snapshots slide past. */
+.shared-header{view-transition-name:site-header}
+@keyframes page-exit-left{to{transform:translateX(-100%)}}
+@keyframes page-enter-right{from{transform:translateX(100%)}}
+@keyframes page-exit-right{to{transform:translateX(100%)}}
+@keyframes page-enter-left{from{transform:translateX(-100%)}}
+::view-transition-group(root){animation-duration:.85s;overflow:clip}
+::view-transition-old(root),::view-transition-new(root){mix-blend-mode:normal;animation-duration:.85s;animation-timing-function:cubic-bezier(.65,0,.35,1);animation-fill-mode:both}
+::view-transition-old(root){animation-name:page-exit-left}
+::view-transition-new(root){animation-name:page-enter-right}
+html[data-navigation='back']::view-transition-old(root){animation-name:page-exit-right}
+html[data-navigation='back']::view-transition-new(root){animation-name:page-enter-left}
+::view-transition-group(site-header){z-index:10;animation:none}
+::view-transition-old(site-header){animation:none;opacity:0}
+::view-transition-new(site-header){animation:none}
+@media(prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
