@@ -1,0 +1,21 @@
+.contact-page{--stack-gutter:0px;background:#fff;padding-top:var(--header-height);overflow:clip;color:#1c1c1b}
+.contact-container{max-width:1370px;margin:auto;padding:55px 55px 0}
+.contact-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:50px;padding:20px 0 65px}
+.contact-heading h1{font-family:'Italiana',Georgia,serif;font-size:clamp(45px,5.7vw,82px);font-weight:400;line-height:1.08;letter-spacing:-.045em;margin:24px 0 0}
+.contact-heading h1 em{font-family:Georgia,serif;font-size:.85em;font-weight:400}
+.contact-heading>p{font-size:13px;line-height:1.9;color:#777;max-width:320px;padding-bottom:7px}
+.contact-layout{display:grid;grid-template-columns:1fr 1fr;align-items:start;gap:clamp(45px,9vw,130px)}
+.contact-story figure{position:relative;height:520px;overflow:hidden;margin:0;border-radius:5px}
+.contact-story img{width:100%;height:100%;object-fit:cover;display:block}
+.contact-story figcaption{position:absolute;left:25px;bottom:25px;color:#fff;letter-spacing:.1em;font-size:8px;text-shadow:0 1px 6px #000}
+.contact-shortcuts{padding-top:22px}
+.contact-shortcuts>a{display:flex;justify-content:space-between;gap:20px;padding:17px 0;border-bottom:1px solid #e8e8e8;font-size:12px}
+.contact-shortcuts>a>span:first-child{color:#888}
+.contact-shortcuts>a>span:last-child{color:#163b73}
+.contact-form-panel{padding-top:8px}
+.contact-form-panel h2{font-family:'Italiana',Georgia,serif;font-size:41px;font-weight:400;letter-spacing:-.04em;margin:18px 0}
+.contact-form-panel h2 em{font-family:Georgia,serif;font-size:.85em}
+.contact-closing{padding:90px 0;text-align:center}
+.contact-closing h2{font-family:'Italiana',Georgia,serif;font-size:clamp(45px,5vw,72px);line-height:1.1;font-weight:400;letter-spacing:-.04em;margin:25px 0}
+.contact-closing h2 em{font-family:Georgia,serif;font-size:.85em}
+@media(max-width:680px){.contact-container{padding:30px 24px 0}.contact-heading{display:block;padding:15px 0 35px}.contact-heading h1{font-size:45px}.contact-heading>p{max-width:none;margin-top:25px}.contact-layout{grid-template-columns:1fr;gap:40px}.contact-story figure{height:330px}.contact-form-panel h2{font-size:36px}.contact-closing{padding:65px 0}}

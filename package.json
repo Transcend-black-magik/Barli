@@ -7,7 +7,7 @@
     "dev": "vite --host 127.0.0.1",
     "build": "vite build",
     "preview": "vite preview --host 127.0.0.1",
-    "test": "node --test src/utils/scroll/__tests__/scrollPolicy.test.js"
+    "test": "node --test src/utils/scroll/__tests__/scrollPolicy.test.js src/utils/forms/__tests__/booking.test.js src/app/__tests__/routes.test.js"
   },
   "dependencies": {
     "react": "^19.1.0",

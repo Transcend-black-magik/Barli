@@ -5,55 +5,23 @@ React and Vite hotel website.
 ## Development
 
 - `npm run dev` starts the development server.
-- `npm run build` builds all three pages and the 404 entry.
-- `npm test` checks responsive scrolling and room-pair sizing.
+- `npm run build` builds the homepage, About Us, Contact, room collection, four category pages, twelve room detail previews, and 404 entry.
+- `npm test` checks routes, booking validation, and responsive scroll policy.
 
 ## Source structure
 
-```text
-src/
-  main.jsx                         React entry point
-  app/App.jsx                      Routing and the persistent header
-  components/
-    layout/                        Shared header and footer
-    feedback/                      Application error boundary
-  pages/
-    home/
-      HomePage.jsx                 Page state and section composition
-      components/booking/          Booking summary dialog
-      hooks/                       Homepage scroll transitions
-      sections/
-        hero/
-        hotel-details/
-        rooms/
-        amenities/
-        restaurant/
-        experiences/
-        gallery/
-        faq/
-    rooms-and-suites/
-      RoomsPage.jsx
-      RoomsPage.css
-      data/                        Room collection content
-      sections/room-collection/    Collection and individual room features
-    our-story/
-      OurStoryPage.jsx
-      OurStoryPage.css
-      data/                        Story and chapter content
-      sections/
-        about/
-        chapters/
-        why-choose/
-        invitation/
-    errors/                        Error-page presentation
-  hooks/scroll/                    Reusable scroll behavior
-  utils/scroll/                    Viewport policy and its tests
-  data/photography/                Image credits and licensing metadata
-  styles/
-    global.css                     Fonts, reset, and foundational styles
-    site.css                       Existing shared and homepage styling
-```
+`src/app/` owns routing and the persistent header. Each page owns its sections and styling under `src/pages/`: `home/`, `about-us/`, `contact/`, `rooms-and-suites/`, and `errors/`. Room category and detail screens live inside `rooms-and-suites/category/` and `details/`; collection content lives in `data/`.
 
-Each page owns its sections and page-specific data. Shared layout and scrolling utilities remain outside page folders. Keep public asset URLs rooted at `/`; images and fonts live in `public/`.
+Shared layout, feedback, and booking form components live in `src/components/`. Reusable animation hooks live in `src/hooks/`; booking validation and scroll policy live in `src/utils/`. Shared fonts/reset and homepage styles live in `src/styles/`. Public image URLs are rooted at `/`.
 
-`src/main.jsx` remains the entry point referenced by the HTML files. Shared and homepage CSS remains in its original cascade order to preserve the design.
+## Navigation and motion
+
+About Us supports `/about-us/` and the existing `/our-story/` URL. Room categories and individual previews have refreshable URLs emitted during production builds. Browser back restores the previous scroll position. Supported browsers use reversible View Transitions for room journeys; page reveals and regular navigation remain available without that API. Reduced-motion preferences are respected. Rooms scroll naturally; 02 and 03 use the full-size image layout, without forced viewport compression. About's sticky stack is limited to sufficiently large desktop viewports; mobile content stays in normal document flow.
+
+## Forms and content
+
+Contact and room booking forms validate input and prepare downloadable text requests locally. They do not transmit personal information, reserve inventory, take payments, or confirm bookings. Connect a verified hotel backend before enabling live submission. Room variants, capacities, and photographs are illustrative previews; replace them with actual inventory. Image sources and licensing are recorded in `ASSET-SOURCES.md` and `src/data/photography/`.
+
+## Cleanup
+
+Superseded story components, the unused Abuja gallery component and editorial scroll hook, obsolete reference assets, and the temporary `.reference-research` folder have been removed. The existing `/our-story/` HTML entry remains as a supported About Us URL.

@@ -1,0 +1,16 @@
+.page-eyebrow{display:block;font-size:9px;letter-spacing:.16em;line-height:1.6;text-transform:uppercase;color:#777}
+.navy-button{display:inline-flex;align-items:center;justify-content:center;gap:26px;border:1px solid #284e82;border-radius:10px;background:linear-gradient(#28528d,#163b73);color:#fff;padding:14px 21px;font-size:13px;line-height:1.5;box-shadow:0 2px 0 #102b51,0 4px 9px #102e5c20}
+.navy-button:hover{background:#214b83}.navy-button:active{box-shadow:0 1px 0 #102b51}
+.editorial-form{display:flex;flex-direction:column;gap:21px;margin-top:28px}
+.editorial-form label{display:flex;flex-direction:column;gap:10px;font-size:11px;line-height:1.6;color:#666;min-width:0}
+.editorial-form input,.editorial-form select,.editorial-form textarea{font:inherit;font-size:14px;color:#222;min-width:0;width:100%;padding:12px 2px;border:0;border-bottom:1px solid #d6d6d1;background:transparent;border-radius:0;color-scheme:light}
+.editorial-form textarea{resize:vertical;min-height:100px}
+.editorial-form :is(input,select,textarea):focus-visible{outline:2px solid #163b73;outline-offset:4px}
+.form-two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.editorial-form>small{font-size:10px;color:#888;line-height:1.8}
+.editorial-form .form-error{font-size:12px;color:#923d37;line-height:1.6;margin:0}
+.form-receipt{margin-top:28px;padding:25px;border:1px solid #dce1d8;border-radius:12px;background:#fafbf8}
+.form-receipt h3{font-family:Georgia,serif;font-size:23px;font-weight:400;margin:10px 0 15px}
+.form-receipt p{font-size:13px;line-height:1.8;color:#666}
+.text-button{display:inline-flex;align-items:center;gap:25px;border:0;border-bottom:1px solid #163b73;padding:8px 0;color:#163b73;background:none;font-size:12px}
+@media(max-width:480px){.form-two{grid-template-columns:1fr;gap:20px}.editorial-form input,.editorial-form textarea,.editorial-form select{font-size:16px}}

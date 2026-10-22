@@ -31,8 +31,8 @@ export default function SiteHeader({ onAction = () => {}, activePage = 'home' })
         <a href="/" aria-current={activePage === 'home' ? 'page' : undefined} onClick={() => setMenuOpen(false)}>Home</a>
         <a href="/rooms-and-suites/" aria-current={activePage === 'rooms' ? 'page' : undefined} onClick={() => setMenuOpen(false)}>Rooms &amp; Suites</a>
         <a href="/#amenities" onClick={() => setMenuOpen(false)}>Amenities</a>
-        <a href="/our-story/" aria-current={activePage === 'story' ? 'page' : undefined} onClick={() => setMenuOpen(false)}>Our Story</a>
-        <button type="button" onClick={onAction}>Contact</button>
+        <a href="/our-story/" aria-current={activePage === 'story' ? 'page' : undefined} onClick={() => setMenuOpen(false)}>About Us</a>
+        <a href="/contact/" aria-current={activePage === 'contact' ? 'page' : undefined} onClick={() => setMenuOpen(false)}>Contact</a>
       </nav>
       <div className="stay-header-actions">
         <button className="stay-login" type="button" onClick={onAction}>Log in</button>

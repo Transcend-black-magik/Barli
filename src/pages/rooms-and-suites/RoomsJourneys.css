@@ -1,0 +1,46 @@
+.room-journey-page{--stack-gutter:0px;background:#fff;padding-top:var(--header-height);color:#191919;overflow:clip}
+.journey-container{max-width:1420px;margin:auto;padding:38px 55px 85px}
+.back-link{display:inline-flex;align-items:center;gap:12px;font-size:11px;line-height:1.6;color:#777;padding:8px 0}
+.back-link:hover{color:#163b73}
+.category-intro,.room-detail-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:50px;padding:45px 0 55px}
+.category-intro h1,.room-detail-heading h1{font-family:'Italiana',Georgia,serif;font-size:clamp(48px,6vw,88px);font-weight:400;letter-spacing:-.045em;line-height:1.08;margin:18px 0 0}
+.category-intro h1 em,.room-detail-heading h1 em{display:block;font-family:Georgia,serif;font-size:.39em;font-weight:400;letter-spacing:-.02em;margin-top:20px;color:#777}
+.category-intro>p{max-width:320px;font-size:13px;line-height:1.9;color:#777;margin-bottom:3px}
+.category-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.category-room-card figure{position:relative;aspect-ratio:.8;margin:0;overflow:hidden;background:#eee;border-radius:4px}
+.category-room-card figure img{width:100%;height:100%;display:block;object-fit:cover;transition:scale .8s}
+.category-room-card:hover img{scale:1.035}
+.room-card-counter{position:absolute;left:18px;right:18px;bottom:17px;display:flex;justify-content:space-between;color:#fff;font-size:11px;text-shadow:0 1px 5px #000}
+.category-card-copy{padding:23px 0;border-bottom:1px solid #eee}
+.category-card-copy h2{font-family:Georgia,serif;font-size:30px;font-weight:400;letter-spacing:-.04em;margin:11px 0}
+.category-card-copy p{font-size:12px;line-height:1.7;color:#777;min-height:40px}
+.category-card-copy>div{display:flex;justify-content:space-between;gap:15px;font-size:10px;line-height:1.6;color:#777;margin-top:25px}
+.category-card-copy>div>span:last-child{color:#163b73}
+.collection-note{font-size:11px;line-height:1.8;color:#999;margin:32px 0;max-width:720px}
+.room-detail-heading{padding-bottom:35px}
+.room-detail-heading>.navy-button{margin-bottom:8px}
+.room-detail-hero{margin:0;height:clamp(330px,65svh,720px);overflow:hidden;border-radius:5px;background:#eee}
+.room-detail-hero img{display:block;width:100%;height:100%;object-fit:cover}
+.room-photo-picker{display:flex;gap:12px;padding:18px 0}
+.room-photo-picker button{padding:3px;border:1px solid transparent;background:#fff;border-radius:5px;width:100px;height:70px;overflow:hidden}
+.room-photo-picker button[aria-pressed=true]{border-color:#163b73}
+.room-photo-picker img{width:100%;height:100%;object-fit:cover;display:block;border-radius:2px}
+.room-detail-layout{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,8vw,120px);padding:60px 0 0;align-items:start}
+.room-description h2,.booking-request h2{font-family:'Italiana',Georgia,serif;font-size:clamp(36px,3.8vw,56px);font-weight:400;line-height:1.13;letter-spacing:-.04em;margin:18px 0 25px}
+.room-description h2 em,.booking-request h2 em{font-family:Georgia,serif;font-size:.85em}
+.room-description p,.booking-request>p{font-size:13px;line-height:1.85;color:#777}
+.room-facts{margin:30px 0;font-size:12px;line-height:1.6}
+.room-facts>div{display:flex;justify-content:space-between;gap:22px;padding:15px 0;border-bottom:1px solid #e8e8e8}
+.room-facts dt{color:#777}.room-facts dd{margin:0;text-align:right;max-width:60%}
+.room-description h3{font-family:Georgia,serif;font-weight:400;font-size:22px}
+.room-description ul{padding-left:18px;font-size:13px;line-height:2;color:#777}
+.booking-request{padding:32px;border:1px solid #e6e7e4;background:#fafaf8;border-radius:14px;scroll-margin-top:calc(var(--header-height) + 24px)}
+@keyframes room-gallery-open{from{clip-path:inset(12% 25% 12% 25% round 120px);opacity:0;transform:translateY(25px) scale(.95)}to{clip-path:inset(0 round 0);opacity:1;transform:none}}
+@keyframes room-gallery-close{from{clip-path:inset(0 round 0);opacity:1;transform:none}to{clip-path:inset(12% 25% 12% 25% round 120px);opacity:0;transform:translateY(25px) scale(.95)}}
+html[data-room-transition=open]::view-transition-new(root){animation-name:room-gallery-open;animation-duration:.9s}
+html[data-room-transition=open]::view-transition-old(root){animation-name:page-exit-left}
+html[data-room-transition=close]::view-transition-old(root){animation-name:room-gallery-close;animation-duration:.8s}
+html[data-room-transition=close]::view-transition-new(root){animation-name:page-enter-left}
+::view-transition-group(*){animation-timing-function:cubic-bezier(.65,0,.35,1)}
+@media(max-width:680px){.journey-container{padding:24px 24px 55px}.category-intro,.room-detail-heading{display:block;padding:25px 0 35px}.category-intro h1,.room-detail-heading h1{font-size:49px}.category-intro>p{margin-top:28px}.category-gallery{grid-template-columns:1fr;gap:34px}.category-room-card figure{aspect-ratio:1.05}.category-card-copy{padding-top:19px}.category-card-copy>div{margin-top:18px}.room-detail-heading>.navy-button{margin-top:28px}.room-detail-hero{height:45svh;min-height:280px}.room-detail-layout{grid-template-columns:1fr;gap:30px;padding-top:30px}.booking-request{padding:25px 20px}.category-card-copy p{min-height:0}}
+@media(prefers-reduced-motion:reduce){.category-room-card img{transition:none}}
